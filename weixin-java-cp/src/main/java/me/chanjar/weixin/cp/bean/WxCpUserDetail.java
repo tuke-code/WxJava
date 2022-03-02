@@ -3,6 +3,8 @@ package me.chanjar.weixin.cp.bean;
 import com.google.gson.annotations.SerializedName;
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * <pre>
  *  使用user_ticket获取成员详情接口返回类.
@@ -12,7 +14,8 @@ import lombok.Data;
  * @author <a href="https://github.com/binarywang">Binary Wang</a>
  */
 @Data
-public class WxCpUserDetail {
+public class WxCpUserDetail implements Serializable {
+  private static final long serialVersionUID = -4301684507150486556L;
 
   /**
    * 成员UserID

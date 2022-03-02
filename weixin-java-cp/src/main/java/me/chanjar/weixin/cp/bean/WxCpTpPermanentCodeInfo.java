@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import me.chanjar.weixin.cp.util.json.WxCpGsonBuilder;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -48,7 +49,9 @@ public class WxCpTpPermanentCodeInfo extends WxCpBaseResp {
 
   @Getter
   @Setter
-  public static class AuthCorpInfo {
+  public static class AuthCorpInfo implements Serializable {
+    private static final long serialVersionUID = -5028321625140879571L;
+
     @SerializedName("corpid")
     private String corpId;
 
@@ -113,7 +116,8 @@ public class WxCpTpPermanentCodeInfo extends WxCpBaseResp {
    */
   @Getter
   @Setter
-  public static class AuthInfo {
+  public static class AuthInfo implements Serializable {
+    private static final long serialVersionUID = -5028321625140879571L;
 
     /**
      * 授权的应用信息，注意是一个数组，但仅旧的多应用套件授权时会返回多个agent，对新的单应用授权，永远只返回一个agent
@@ -125,7 +129,9 @@ public class WxCpTpPermanentCodeInfo extends WxCpBaseResp {
 
   @Getter
   @Setter
-  public static class Agent {
+  public static class Agent implements Serializable {
+    private static final long serialVersionUID = -5028321625140879571L;
+
     @SerializedName("agentid")
     private Integer agentId;
 
@@ -146,6 +152,18 @@ public class WxCpTpPermanentCodeInfo extends WxCpBaseResp {
     private String appid;
 
     /**
+     * 授权模式，0为管理员授权；1为成员授权
+     */
+    @SerializedName("auth_mode")
+    private Integer authMode;
+
+    /**
+     * 是否为代开发自建应用
+     */
+    @SerializedName("is_customized_app")
+    private Boolean isCustomizedApp;
+
+    /**
      * 应用权限
      */
     @SerializedName("privilege")
@@ -158,7 +176,9 @@ public class WxCpTpPermanentCodeInfo extends WxCpBaseResp {
    */
   @Getter
   @Setter
-  public static class AuthUserInfo {
+  public static class AuthUserInfo implements Serializable {
+    private static final long serialVersionUID = -5028321625140879571L;
+
     @SerializedName("userid")
     private String userId;
 
@@ -174,7 +194,8 @@ public class WxCpTpPermanentCodeInfo extends WxCpBaseResp {
    */
   @Getter
   @Setter
-  public static class Privilege {
+  public static class Privilege implements Serializable {
+    private static final long serialVersionUID = -5028321625140879571L;
 
     /**
      * 权限等级。

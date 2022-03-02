@@ -1,19 +1,15 @@
 package me.chanjar.weixin.cp.bean.message;
 
-import java.io.Serializable;
-
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamConverter;
 import lombok.Data;
 import me.chanjar.weixin.common.util.xml.XStreamCDataConverter;
-import me.chanjar.weixin.cp.bean.outxmlbuilder.ImageBuilder;
-import me.chanjar.weixin.cp.bean.outxmlbuilder.NewsBuilder;
-import me.chanjar.weixin.cp.bean.outxmlbuilder.TextBuilder;
-import me.chanjar.weixin.cp.bean.outxmlbuilder.VideoBuilder;
-import me.chanjar.weixin.cp.bean.outxmlbuilder.VoiceBuilder;
+import me.chanjar.weixin.cp.bean.outxmlbuilder.*;
 import me.chanjar.weixin.cp.config.WxCpConfigStorage;
 import me.chanjar.weixin.cp.util.crypto.WxCpCryptUtil;
 import me.chanjar.weixin.cp.util.xml.XStreamTransformer;
+
+import java.io.Serializable;
 
 /**
  * 被动回复消息.
@@ -74,6 +70,27 @@ public abstract class WxCpXmlOutMessage implements Serializable {
    */
   public static NewsBuilder NEWS() {
     return new NewsBuilder();
+  }
+
+  /**
+   * 获得任务卡片消息builder.
+   */
+  public static TaskCardBuilder TASK_CARD() {
+    return new TaskCardBuilder();
+  }
+
+  /**
+   * 获得任务卡片消息builder.
+   */
+  public static UpdateButtonBuilder UPDATE_BUTTON() {
+    return new UpdateButtonBuilder();
+  }
+
+  /**
+   * 获得事件消息builder.
+   */
+  public static EventBuilder EVENT() {
+    return new EventBuilder();
   }
 
   protected String toXml() {

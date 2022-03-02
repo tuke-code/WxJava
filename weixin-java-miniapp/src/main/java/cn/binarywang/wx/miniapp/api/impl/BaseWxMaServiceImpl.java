@@ -49,6 +49,7 @@ public abstract class BaseWxMaServiceImpl<H, P> implements WxMaService, RequestH
   private final WxMaSchemeService schemeService = new WxMaSchemeServiceImpl(this);
   private final WxMaAnalysisService analysisService = new WxMaAnalysisServiceImpl(this);
   private final WxMaCodeService codeService = new WxMaCodeServiceImpl(this);
+  private final WxMaInternetService internetService = new WxMaInternetServiceImpl(this);
   private final WxMaSettingService settingService = new WxMaSettingServiceImpl(this);
   private final WxMaJsapiService jsapiService = new WxMaJsapiServiceImpl(this);
   private final WxMaShareService shareService = new WxMaShareServiceImpl(this);
@@ -65,6 +66,19 @@ public abstract class BaseWxMaServiceImpl<H, P> implements WxMaService, RequestH
   private final WxImgProcService imgProcService = new WxMaImgProcServiceImpl(this);
   private final WxMaShopSpuService shopSpuService = new WxMaShopSpuServiceImpl(this);
   private final WxMaShopOrderService shopOrderService = new WxMaShopOrderServiceImpl(this);
+  private final WxMaShopRegisterService shopRegisterService = new WxMaShopRegisterServiceImpl(this);
+  private final WxMaShopAccountService shopAccountService = new WxMaShopAccountServiceImpl(this);
+  private final WxMaShopCatService shopCatService = new WxMaShopCatServiceImpl(this);
+  private final WxMaShopImgService shopImgService = new WxMaShopImgServiceImpl(this);
+  private final WxMaShopAuditService shopAuditService = new WxMaShopAuditServiceImpl(this);
+  private final WxMaShopAfterSaleService shopAfterSaleService = new WxMaShopAfterSaleServiceImpl(this);
+  private final WxMaShopDeliveryService shopDeliveryService = new WxMaShopDeliveryServiceImpl(this);
+  private final WxMaLinkService linkService = new WxMaLinkServiceImpl(this);
+  private final WxMaReimburseInvoiceService reimburseInvoiceService = new WxMaReimburseInvoiceServiceImpl(this);
+  private final WxMaDeviceSubscribeService deviceSubscribeService = new WxMaDeviceSubscribeServiceImpl(this);
+  private final WxMaMarketingService marketingService = new WxMaMarketingServiceImpl(this);
+  private final WxMaImmediateDeliveryService immediateDeliveryService = new WxMaImmediateDeliveryServiceImpl(this);
+  private final WxMaSafetyRiskControlService safetyRiskControlService = new WxMaSafetyRiskControlServiceImpl(this);
   private Map<String, WxMaConfig> configMap;
   private int retrySleepMillis = 1000;
   private int maxRetryTimes = 5;
@@ -207,7 +221,7 @@ public abstract class BaseWxMaServiceImpl<H, P> implements WxMaService, RequestH
     int retryTimes = 0;
     do {
       try {
-        return this.executeInternal(executor, uri, data);
+        return this.executeInternal(executor, uri, data, false);
       } catch (WxErrorException e) {
         if (retryTimes + 1 > this.maxRetryTimes) {
           log.warn("重试达到最大次数【{}】", maxRetryTimes);
@@ -238,7 +252,7 @@ public abstract class BaseWxMaServiceImpl<H, P> implements WxMaService, RequestH
     throw new WxRuntimeException("微信服务端异常，超出重试次数");
   }
 
-  private <T, E> T executeInternal(RequestExecutor<T, E> executor, String uri, E data) throws WxErrorException {
+  private <T, E> T executeInternal(RequestExecutor<T, E> executor, String uri, E data, boolean doNotAutoRefreshToken) throws WxErrorException {
     E dataForLog = DataUtils.handleDataWithSecret(data);
 
     if (uri.contains("access_token=")) {
@@ -271,9 +285,11 @@ public abstract class BaseWxMaServiceImpl<H, P> implements WxMaService, RequestH
         } finally {
           lock.unlock();
         }
-        if (this.getWxMaConfig().autoRefreshToken()) {
+        if (this.getWxMaConfig().autoRefreshToken() && !doNotAutoRefreshToken) {
           log.warn("即将重新获取新的access_token，错误代码：{}，错误信息：{}", error.getErrorCode(), error.getErrorMsg());
-          return this.execute(executor, uri, data);
+          //下一次不再自动重试
+          //当小程序误调用第三方平台专属接口时,第三方无法使用小程序的access token,如果可以继续自动获取token会导致无限循环重试,直到栈溢出
+          return this.executeInternal(executor, uri, data, true);
         }
       }
 
@@ -296,6 +312,7 @@ public abstract class BaseWxMaServiceImpl<H, P> implements WxMaService, RequestH
    * @throws WxErrorException 异常
    */
   protected String extractAccessToken(String resultContent) throws WxErrorException {
+    log.info("resultContent: " + resultContent);
     WxMaConfig config = this.getWxMaConfig();
     WxError error = WxError.fromJson(resultContent, WxType.MiniApp);
     if (error.getErrorCode() != 0) {
@@ -477,6 +494,11 @@ public abstract class BaseWxMaServiceImpl<H, P> implements WxMaService, RequestH
   }
 
   @Override
+  public WxMaInternetService getInternetService() {
+    return this.internetService;
+  }
+
+  @Override
   public WxMaLiveService getLiveService() {
     return this.liveService;
   }
@@ -510,4 +532,64 @@ public abstract class BaseWxMaServiceImpl<H, P> implements WxMaService, RequestH
   public WxMaShopOrderService getShopOrderService() {
     return this.shopOrderService;
   }
+
+  @Override
+  public WxMaShopRegisterService getShopRegisterService() {
+    return this.shopRegisterService;
+  }
+
+  @Override
+  public WxMaShopAccountService getShopAccountService() {
+    return this.shopAccountService;
+  }
+
+  @Override
+  public WxMaShopCatService getShopCatService() {
+    return this.shopCatService;
+  }
+
+  @Override
+  public WxMaShopImgService getShopImgService() {
+    return this.shopImgService;
+  }
+
+  @Override
+  public WxMaShopAuditService getShopAuditService() {
+    return this.shopAuditService;
+  }
+
+  @Override
+  public WxMaShopAfterSaleService getShopAfterSaleService() {
+    return this.shopAfterSaleService;
+  }
+
+  @Override
+  public WxMaShopDeliveryService getShopDeliveryService() {
+    return this.shopDeliveryService;
+  }
+
+  @Override
+  public WxMaLinkService getLinkService() {
+    return this.linkService;
+  }
+
+  @Override
+  public WxMaReimburseInvoiceService getReimburseInvoiceService() {
+    return this.reimburseInvoiceService;
+  }
+
+  @Override
+  public WxMaDeviceSubscribeService getDeviceSubscribeService(){ return this.deviceSubscribeService; }
+
+  @Override
+  public WxMaMarketingService getMarketingService() {return  this.marketingService;  }
+
+  @Override
+  public WxMaImmediateDeliveryService getWxMaImmediateDeliveryService() {
+    return this.immediateDeliveryService;
+  }
+
+  @Override
+  public WxMaSafetyRiskControlService getSafetyRiskControlService(){ return this.safetyRiskControlService; }
+
 }

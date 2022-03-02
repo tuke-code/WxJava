@@ -6,10 +6,12 @@ import lombok.Setter;
 import me.chanjar.weixin.cp.bean.WxCpBaseResp;
 import me.chanjar.weixin.cp.util.json.WxCpGsonBuilder;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * 离职员工外部联系人列表
+ *
  * @author yqx
  * @date 2020/3/15
  */
@@ -25,7 +27,8 @@ public class WxCpUserExternalUnassignList extends WxCpBaseResp {
 
   @Getter
   @Setter
-  public static class UnassignInfo {
+  public static class UnassignInfo implements Serializable {
+    private static final long serialVersionUID = -4301684507150486556L;
 
     /**
      * 离职成员userid

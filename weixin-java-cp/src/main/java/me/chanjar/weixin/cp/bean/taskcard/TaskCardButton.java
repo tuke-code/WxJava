@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 /**
  * <pre>
  *  任务卡片按钮
@@ -18,7 +20,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class TaskCardButton {
+public class TaskCardButton implements Serializable {
+  private static final long serialVersionUID = -4301684507150486556L;
+
   private String key;
   private String name;
   private String replaceName;

@@ -4,6 +4,8 @@ import com.google.gson.annotations.SerializedName;
 import lombok.Data;
 import me.chanjar.weixin.cp.util.json.WxCpGsonBuilder;
 
+import java.io.Serializable;
+
 /**
  * 服务商凭证.
  *
@@ -11,7 +13,9 @@ import me.chanjar.weixin.cp.util.json.WxCpGsonBuilder;
  * @date 2019-11-02
  */
 @Data
-public class WxCpProviderToken {
+public class WxCpProviderToken implements Serializable {
+  private static final long serialVersionUID = -4301684507150486556L;
+
   /**
    * 服务商的access_token，最长为512字节。
    */

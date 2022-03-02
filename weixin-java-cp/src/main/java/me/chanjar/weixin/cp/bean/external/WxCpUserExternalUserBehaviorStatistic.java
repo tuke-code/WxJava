@@ -6,10 +6,12 @@ import lombok.Setter;
 import me.chanjar.weixin.cp.bean.WxCpBaseResp;
 import me.chanjar.weixin.cp.util.json.WxCpGsonBuilder;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * 联系客户统计数据
+ *
  * @author yqx
  * @date 2020/3/16
  */
@@ -22,7 +24,8 @@ public class WxCpUserExternalUserBehaviorStatistic extends WxCpBaseResp {
 
   @Getter
   @Setter
-  public static class Behavior {
+  public static class Behavior implements Serializable {
+    private static final long serialVersionUID = -4301684507150486556L;
 
     /**
      * 数据日期，为当日0点的时间戳

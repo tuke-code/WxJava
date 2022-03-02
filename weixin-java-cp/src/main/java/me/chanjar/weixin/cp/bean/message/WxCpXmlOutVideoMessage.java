@@ -7,6 +7,8 @@ import lombok.EqualsAndHashCode;
 import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.common.util.xml.XStreamCDataConverter;
 
+import java.io.Serializable;
+
 @XStreamAlias("xml")
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -46,7 +48,8 @@ public class WxCpXmlOutVideoMessage extends WxCpXmlOutMessage {
 
   @Data
   @XStreamAlias("Video")
-  public static class Video {
+  public static class Video implements Serializable {
+    private static final long serialVersionUID = -8672761162722733622L;
 
     @XStreamAlias("MediaId")
     @XStreamConverter(value = XStreamCDataConverter.class)

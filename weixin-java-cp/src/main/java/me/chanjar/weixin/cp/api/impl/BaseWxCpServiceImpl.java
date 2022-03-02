@@ -17,15 +17,14 @@ import me.chanjar.weixin.common.session.WxSessionManager;
 import me.chanjar.weixin.common.util.DataUtils;
 import me.chanjar.weixin.common.util.RandomUtils;
 import me.chanjar.weixin.common.util.crypto.SHA1;
-import me.chanjar.weixin.common.util.http.RequestExecutor;
-import me.chanjar.weixin.common.util.http.RequestHttp;
-import me.chanjar.weixin.common.util.http.SimpleGetRequestExecutor;
-import me.chanjar.weixin.common.util.http.SimplePostRequestExecutor;
+import me.chanjar.weixin.common.util.http.*;
 import me.chanjar.weixin.common.util.json.GsonParser;
 import me.chanjar.weixin.cp.api.*;
+import me.chanjar.weixin.cp.bean.WxCpAgentJsapiSignature;
 import me.chanjar.weixin.cp.bean.WxCpMaJsCode2SessionResult;
 import me.chanjar.weixin.cp.bean.WxCpProviderToken;
 import me.chanjar.weixin.cp.config.WxCpConfigStorage;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -50,6 +49,8 @@ public abstract class BaseWxCpServiceImpl<H, P> implements WxCpService, RequestH
   private WxCpTagService tagService = new WxCpTagServiceImpl(this);
   private WxCpAgentService agentService = new WxCpAgentServiceImpl(this);
   private WxCpOaService oaService = new WxCpOaServiceImpl(this);
+  private WxCpLivingService livingService = new WxCpLivingServiceImpl(this);
+  private WxCpMsgAuditService msgAuditService = new WxCpMsgAuditServiceImpl(this);
   private WxCpTaskCardService taskCardService = new WxCpTaskCardServiceImpl(this);
   private WxCpExternalContactService externalContactService = new WxCpExternalContactServiceImpl(this);
   private WxCpGroupRobotService groupRobotService = new WxCpGroupRobotServiceImpl(this);
@@ -57,6 +58,7 @@ public abstract class BaseWxCpServiceImpl<H, P> implements WxCpService, RequestH
   private WxCpOaCalendarService oaCalendarService = new WxCpOaCalendarServiceImpl(this);
   private WxCpOaScheduleService oaScheduleService = new WxCpOaOaScheduleServiceImpl(this);
   private WxCpAgentWorkBenchService workBenchService = new WxCpAgentWorkBenchServiceImpl(this);
+  private WxCpKfService kfService = new WxCpKfServiceImpl(this);
 
   /**
    * 全局的是否正在刷新access token的锁.
@@ -174,6 +176,30 @@ public abstract class BaseWxCpServiceImpl<H, P> implements WxCpService, RequestH
   }
 
   @Override
+  public WxCpAgentJsapiSignature createAgentJsapiSignature(String url) throws WxErrorException {
+    long timestamp = System.currentTimeMillis() / 1000;
+    String noncestr = RandomUtils.getRandomStr();
+    String jsapiTicket = getAgentJsapiTicket(false);
+    String signature = SHA1.genWithAmple(
+      "jsapi_ticket=" + jsapiTicket,
+      "noncestr=" + noncestr,
+      "timestamp=" + timestamp,
+      "url=" + url
+    );
+
+    WxCpAgentJsapiSignature jsapiSignature = new WxCpAgentJsapiSignature();
+    jsapiSignature.setTimestamp(timestamp);
+    jsapiSignature.setNonceStr(noncestr);
+    jsapiSignature.setUrl(url);
+    jsapiSignature.setSignature(signature);
+
+    jsapiSignature.setCorpid(this.configStorage.getCorpId());
+    jsapiSignature.setAgentid(this.configStorage.getAgentId());
+
+    return jsapiSignature;
+  }
+
+  @Override
   public WxCpMaJsCode2SessionResult jsCode2Session(String jsCode) throws WxErrorException {
     Map<String, String> params = new HashMap<>(2);
     params.put("js_code", jsCode);
@@ -241,7 +267,7 @@ public abstract class BaseWxCpServiceImpl<H, P> implements WxCpService, RequestH
     int retryTimes = 0;
     do {
       try {
-        return this.executeInternal(executor, uri, data);
+        return this.executeInternal(executor, uri, data, false);
       } catch (WxErrorException e) {
         if (retryTimes + 1 > this.maxRetryTimes) {
           log.warn("重试达到最大次数【{}】", this.maxRetryTimes);
@@ -271,7 +297,7 @@ public abstract class BaseWxCpServiceImpl<H, P> implements WxCpService, RequestH
     throw new WxRuntimeException("微信服务端异常，超出重试次数");
   }
 
-  protected <T, E> T executeInternal(RequestExecutor<T, E> executor, String uri, E data) throws WxErrorException {
+  protected <T, E> T executeInternal(RequestExecutor<T, E> executor, String uri, E data, boolean doNotAutoRefresh) throws WxErrorException {
     E dataForLog = DataUtils.handleDataWithSecret(data);
 
     if (uri.contains("access_token=")) {
@@ -291,9 +317,11 @@ public abstract class BaseWxCpServiceImpl<H, P> implements WxCpService, RequestH
       if (WxConsts.ACCESS_TOKEN_ERROR_CODES.contains(error.getErrorCode())) {
         // 强制设置wxCpConfigStorage它的access token过期了，这样在下一次请求里就会刷新access token
         this.configStorage.expireAccessToken();
-        if (this.getWxCpConfigStorage().autoRefreshToken()) {
+        if (this.getWxCpConfigStorage().autoRefreshToken() && !doNotAutoRefresh) {
           log.warn("即将重新获取新的access_token，错误代码：{}，错误信息：{}", error.getErrorCode(), error.getErrorMsg());
-          return this.execute(executor, uri, data);
+          //下一次不再自动重试
+          //当小程序误调用第三方平台专属接口时,第三方无法使用小程序的access token,如果可以继续自动获取token会导致无限循环重试,直到栈溢出
+          return this.executeInternal(executor, uri, data, true);
         }
       }
 
@@ -392,6 +420,13 @@ public abstract class BaseWxCpServiceImpl<H, P> implements WxCpService, RequestH
     return get(url, null);
   }
 
+  @Override
+  public String buildQrConnectUrl(String redirectUri, String state) {
+    return String.format("https://open.work.weixin.qq.com/wwopen/sso/qrConnect?appid=%s&agentid=%s&redirect_uri=%s&state=%s",
+      this.configStorage.getCorpId(), this.configStorage.getAgentId(),
+      URIUtil.encodeURIComponent(redirectUri), StringUtils.trimToEmpty(state));
+  }
+
   public File getTmpDirFile() {
     return this.tmpDirFile;
   }
@@ -443,6 +478,16 @@ public abstract class BaseWxCpServiceImpl<H, P> implements WxCpService, RequestH
   @Override
   public WxCpOaService getOaService() {
     return oaService;
+  }
+
+  @Override
+  public WxCpLivingService getLivingService() {
+    return livingService;
+  }
+
+  @Override
+  public WxCpMsgAuditService getMsgAuditService() {
+    return msgAuditService;
   }
 
   @Override
@@ -517,5 +562,15 @@ public abstract class BaseWxCpServiceImpl<H, P> implements WxCpService, RequestH
   @Override
   public WxCpOaScheduleService getOaScheduleService() {
     return this.oaScheduleService;
+  }
+
+  @Override
+  public WxCpKfService getKfService() {
+    return kfService;
+  }
+
+  @Override
+  public void setKfService(WxCpKfService kfService) {
+    this.kfService = kfService;
   }
 }
