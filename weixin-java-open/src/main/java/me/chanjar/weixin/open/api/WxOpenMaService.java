@@ -3,6 +3,7 @@ package me.chanjar.weixin.open.api;
 import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.bean.WxMaAuditMediaUploadResult;
 import me.chanjar.weixin.common.error.WxErrorException;
+import me.chanjar.weixin.open.bean.ma.WxMaPrefetchDomain;
 import me.chanjar.weixin.open.bean.ma.WxMaScheme;
 import me.chanjar.weixin.open.bean.message.WxOpenMaSubmitAuditMessage;
 import me.chanjar.weixin.open.bean.result.*;
@@ -12,13 +13,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * <pre>
- *     微信开放平台代小程序实现服务能力
- *     https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&id=open1489144594_DhNoV&token=&lang=zh_CN
- * </pre>
+ * <a href="https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&id=open1489144594_DhNoV&token=&lang=zh_CN">微信开放平台代小程序实现服务能力</a>
  *
  * @author yqx
- * @date 2018 /9/12
+ * created on  2018 /9/12
  */
 public interface WxOpenMaService extends WxMaService {
   /**
@@ -73,7 +71,7 @@ public interface WxOpenMaService extends WxMaService {
   /**
    * 以下接口基础信息设置
    * <p>
-   * https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&id=21517799059ZSEMr&token=6f965b5daf30a98a6bbd2a386faea5c934e929bf&lang=zh_CN
+   * <a href="https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&id=21517799059ZSEMr&token=6f965b5daf30a98a6bbd2a386faea5c934e929bf&lang=zh_CN">...</a>
    * </p>
    * 1. 设置小程序隐私设置（是否可被搜索）
    */
@@ -98,7 +96,7 @@ public interface WxOpenMaService extends WxMaService {
   /**
    * 以下接口为三方平台代小程序实现的代码管理功能
    * <p>
-   * https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&id=open1489140610_Uavc4&token=fe774228c66725425675810097f9e48d0737a4bf&lang=zh_CN
+   * <a href="https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&id=open1489140610_Uavc4&token=fe774228c66725425675810097f9e48d0737a4bf&lang=zh_CN">...</a>
    * </p>
    * 1. 为授权的小程序帐号上传小程序代码
    */
@@ -162,7 +160,7 @@ public interface WxOpenMaService extends WxMaService {
   /**
    * 14.设置小程序“扫普通链接二维码打开小程序”能力
    * <p>
-   * https://mp.weixin.qq.com/debug/wxadoc/introduction/qrcode.html
+   * <a href="https://mp.weixin.qq.com/debug/wxadoc/introduction/qrcode.html">...</a>
    * 14.1 增加或修改二维码规则
    */
   String API_QRCODE_JUMP_ADD = "https://api.weixin.qq.com/cgi-bin/wxopen/qrcodejumpadd";
@@ -237,6 +235,27 @@ public interface WxOpenMaService extends WxMaService {
    * 小程序审核 提审素材上传接口
    */
   String API_AUDIT_UPLOAD_MEDIA = "https://api.weixin.qq.com/wxa/uploadmedia";
+
+
+  /**
+   * 小程序管理-查询小程序版本信息
+   */
+  String API_GET_VERSION_INFO = "https://api.weixin.qq.com/wxa/getversioninfo";
+
+  /**
+   * 设置DNS预解析域名
+   */
+  String API_WX_SET_PREFETCH_DOMAIN = "https://api.weixin.qq.com/wxa/set_prefetchdnsdomain";
+
+  /**
+   * 获取DNS预解析域名
+   */
+  String API_GET_PREFETCH_DOMAIN = "https://api.weixin.qq.com/wxa/get_prefetchdnsdomain";
+
+  /**
+   * 申请开通直播
+   */
+  String API_WX_APPLY_LIVE_INFO = "https://api.weixin.qq.com/wxa/business/applyliveinfo";
 
   /**
    * 获得小程序的域名配置信息
@@ -645,4 +664,40 @@ public interface WxOpenMaService extends WxMaService {
    * @return
    */
   WxMaAuditMediaUploadResult uploadMedia(File file) throws WxErrorException;
+
+  /**
+   * 查询小程序版本信息
+   *
+   * @return the wx open result
+   * @throws WxErrorException the wx error exception
+   */
+  WxOpenVersioninfoResult getVersionInfo() throws WxErrorException;
+
+  /**
+   * 设置DNS预解析域名
+   *
+   * @param domain 预解析域名列表
+   * @return {@link WxOpenResult}
+   * @throws WxErrorException the wx error exception
+   */
+  WxOpenResult setPrefetchDomain(WxMaPrefetchDomain domain) throws WxErrorException;
+
+  /**
+   * 获取DNS预解析域名
+   *
+   * @return {@link WxOpenMaPrefetchDomainResult}
+   * @throws WxErrorException he wx error exception
+   */
+  WxOpenMaPrefetchDomainResult getPrefetchDomain() throws WxErrorException;
+
+  /**
+   * 申请开通直播
+   * 文档地址：
+   * <a href="https://developers.weixin.qq.com/doc/oplatform/openApi/OpenApiDoc/miniprogram-management/live-player/applyLivelnfo.html">https://developers.weixin.qq.com/doc/oplatform/openApi/OpenApiDoc/miniprogram-management/live-player/applyLivelnfo.html</a>
+   *
+   * @return {@link WxOpenMaApplyLiveInfoResult}
+   * @throws WxErrorException the wx error exception
+   */
+  WxOpenMaApplyLiveInfoResult applyLiveInfo() throws WxErrorException;
+
 }

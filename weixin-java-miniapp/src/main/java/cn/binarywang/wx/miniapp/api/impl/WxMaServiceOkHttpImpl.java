@@ -3,6 +3,7 @@ package cn.binarywang.wx.miniapp.api.impl;
 import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.config.WxMaConfig;
 import me.chanjar.weixin.common.util.http.HttpType;
+import me.chanjar.weixin.common.util.http.okhttp.DefaultOkHttpClientBuilder;
 import me.chanjar.weixin.common.util.http.okhttp.OkHttpProxyInfo;
 import okhttp3.*;
 import org.apache.commons.lang3.StringUtils;
@@ -27,12 +28,8 @@ public class WxMaServiceOkHttpImpl extends BaseWxMaServiceImpl<OkHttpClient, OkH
         wxMpConfigStorage.getHttpProxyPort(),
         wxMpConfigStorage.getHttpProxyUsername(),
         wxMpConfigStorage.getHttpProxyPassword());
-    }
-
-    OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
-    if (httpProxy != null) {
+      OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
       clientBuilder.proxy(getRequestHttpProxy().getProxy());
-
       //设置授权
       clientBuilder.authenticator(new Authenticator() {
         @Override
@@ -43,8 +40,10 @@ public class WxMaServiceOkHttpImpl extends BaseWxMaServiceImpl<OkHttpClient, OkH
             .build();
         }
       });
+      httpClient = clientBuilder.build();
+    } else {
+      httpClient = DefaultOkHttpClientBuilder.get().build();
     }
-    httpClient = clientBuilder.build();
   }
 
   @Override
@@ -64,7 +63,8 @@ public class WxMaServiceOkHttpImpl extends BaseWxMaServiceImpl<OkHttpClient, OkH
 
   @Override
   protected String doGetAccessTokenRequest() throws IOException {
-    String url = StringUtils.isNotEmpty(this.getWxMaConfig().getApiHostUrl()) ?
+    String url = StringUtils.isNotEmpty(this.getWxMaConfig().getAccessTokenUrl()) ?
+      this.getWxMaConfig().getAccessTokenUrl() : StringUtils.isNotEmpty(this.getWxMaConfig().getApiHostUrl()) ?
       WxMaService.GET_ACCESS_TOKEN_URL.replace("https://api.weixin.qq.com", this.getWxMaConfig().getApiHostUrl()) :
       WxMaService.GET_ACCESS_TOKEN_URL;
 

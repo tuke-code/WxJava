@@ -8,13 +8,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * 微信消费者投诉2.0
  * 提交回复请求实体
  *
  * @author <a href="https://gitee.com/jeequan/jeepay">jmdhappy</a>
- * @date 2022-3-19
+ * created on  2022-3-19
  */
 @Data
 @Builder(builderMethodName = "newBuilder")
@@ -65,7 +66,7 @@ public class ResponseRequest implements Serializable {
    * </pre>
    */
   @SerializedName("response_images")
-  private String responseImages;
+  private List<String> responseImages;
 
   /**
    * <pre>

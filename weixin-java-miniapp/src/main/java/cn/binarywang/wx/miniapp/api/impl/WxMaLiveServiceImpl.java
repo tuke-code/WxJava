@@ -87,7 +87,7 @@ public class WxMaLiveServiceImpl implements WxMaLiveService {
   }
 
   @Override
-  public String getSharedCode(Integer roomId, String params) throws WxErrorException {
+  public WxMaLiveSharedCode getSharedCode(Integer roomId, String params) throws WxErrorException {
     Map<String, Object> map = new HashMap<>(2);
     map.put(ROOM_ID, roomId);
     if (null != params) {
@@ -98,7 +98,7 @@ public class WxMaLiveServiceImpl implements WxMaLiveService {
     if (jsonObject.get(ERR_CODE).getAsInt() != 0) {
       throw new WxErrorException(WxError.fromJson(responseContent, WxType.MiniApp));
     }
-    return jsonObject.get("cdnUrl").getAsString();
+    return WxMaGsonBuilder.create().fromJson(responseContent, WxMaLiveSharedCode.class);
   }
 
   @Override
@@ -272,7 +272,7 @@ public class WxMaLiveServiceImpl implements WxMaLiveService {
   public String getSubanchor(Integer roomId) throws WxErrorException {
     Map<String, Object> map = new HashMap<>(1);
     map.put(ROOM_ID, roomId);
-    String responseContent = this.wxMaService.get(Room.GET_SUBANCHOR, WxMaGsonBuilder.create().toJson(map));
+    String responseContent = this.wxMaService.get(Room.GET_SUBANCHOR, Joiner.on("&").withKeyValueSeparator("=").join(map));
     JsonObject jsonObject = GsonParser.parse(responseContent);
     if (jsonObject.get(ERR_CODE).getAsInt() != 0) {
       throw new WxErrorException(WxError.fromJson(responseContent, WxType.MiniApp));
@@ -390,7 +390,7 @@ public class WxMaLiveServiceImpl implements WxMaLiveService {
     Map<String, Object> map = new HashMap<>(2);
     map.put(ROOM_ID, roomId);
     map.put("goodsId", goodsId);
-    String responseContent = this.wxMaService.get(Room.GET_VIDEO, WxMaGsonBuilder.create().toJson(map));
+    String responseContent = this.wxMaService.post(Room.GET_VIDEO, WxMaGsonBuilder.create().toJson(map));
     JsonObject jsonObject = GsonParser.parse(responseContent);
     if (jsonObject.get(ERR_CODE).getAsInt() != 0) {
       throw new WxErrorException(WxError.fromJson(responseContent, WxType.MiniApp));
