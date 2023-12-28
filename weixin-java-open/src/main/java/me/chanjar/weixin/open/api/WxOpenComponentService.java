@@ -8,6 +8,7 @@ import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.open.bean.WxOpenCreateResult;
 import me.chanjar.weixin.open.bean.WxOpenGetResult;
 import me.chanjar.weixin.open.bean.WxOpenMaCodeTemplate;
+import me.chanjar.weixin.open.bean.ma.WxOpenMaApplyOrderPathInfo;
 import me.chanjar.weixin.open.bean.message.WxOpenXmlMessage;
 import me.chanjar.weixin.open.bean.minishop.*;
 import me.chanjar.weixin.open.bean.minishop.coupon.WxMinishopCoupon;
@@ -74,7 +75,7 @@ public interface WxOpenComponentService {
   /**
    * 手机端打开授权链接.
    */
-  String COMPONENT_MOBILE_LOGIN_PAGE_URL = "https://mp.weixin.qq.com/safe/bindcomponent?action=bindcomponent&no_scan=1&auth_type=3&component_appid=%s&pre_auth_code=%s&redirect_uri=%s&auth_type=xxx&biz_appid=xxx#wechat_redirect";
+  String COMPONENT_MOBILE_LOGIN_PAGE_URL = "https://open.weixin.qq.com/wxaopen/safe/bindcomponent?action=bindcomponent&no_scan=1&component_appid=%s&pre_auth_code=%s&redirect_uri=%s&auth_type=xxx&biz_appid=xxx#wechat_redirect";
   /**
    * The constant CONNECT_OAUTH2_AUTHORIZE_URL.
    */
@@ -1096,5 +1097,21 @@ public interface WxOpenComponentService {
    * @throws WxErrorException
    */
   WxOpenResult clearQuotaV2(String appid) throws WxErrorException;
+
+  //////////////////////////////////////////////////////////////
+  /**
+   * 申请设置订单页path信息
+   */
+  String OPEN_APPLY_SET_ORDER_PATH_INFO = "https://api.weixin.qq.com/wxa/security/applysetorderpathinfo";
+
+  /**
+   * 申请设置订单页path信息
+   * 注意：一次提交不超过100个appid
+   *
+   * @param info 订单页path信息
+   * @return .
+   * @throws WxErrorException .
+   */
+  WxOpenResult applySetOrderPathInfo(WxOpenMaApplyOrderPathInfo info) throws WxErrorException;
 
 }
