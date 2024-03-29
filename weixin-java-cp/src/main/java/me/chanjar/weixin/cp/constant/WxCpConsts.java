@@ -159,6 +159,60 @@ public class WxCpConsts {
      */
     public static final String LIVING_STATUS_CHANGE = "living_status_change";
 
+    /**
+     * 微信客服消息事件
+     */
+    public static final String KF_MSG_OR_EVENT = "kf_msg_or_event";
+
+    /**
+     * 客服账号授权变更事件
+     */
+    public static final String KF_ACCOUNT_AUTH_CHANGE = "kf_account_auth_change";
+
+    /**
+     * 获客助手事件通知
+     */
+    public static final String CUSTOMER_ACQUISITION = "customer_acquisition";
+
+  }
+
+  /**
+   * 获客助手事件通知CHANGE_TYPE
+   * https://developer.work.weixin.qq.com/document/path/97299
+   */
+  @UtilityClass
+  public static class CustomerAcquisitionChangeType {
+
+    /**
+     * 获客额度即将耗尽事件
+     */
+    public static final String BALANCE_LOW = "balance_low";
+
+    /**
+     * 使用量已经耗尽事件
+     */
+    public static final String BALANCE_EXHAUSTED = "balance_exhausted";
+
+    /**
+     * 获客链接不可用事件
+     */
+    public static final String LINK_UNAVAILABLE = "link_unavailable";
+
+    /**
+     * 微信客户发起会话事件
+     */
+    public static final String CUSTOMER_START_CHAT = "customer_start_chat";
+
+    /**
+     * 删除获客链接事件
+     */
+    public static final String DELETE_LINK = "delete_link";
+
+    /**
+     * 通过获客链接申请好友事件
+     */
+    public static final String friend_request = "friend_request";
+
   }
 
   /**
@@ -172,6 +226,61 @@ public class WxCpConsts {
      * The constant MSG_AUDIT_APPROVED.
      */
     public static final String MSG_AUDIT_APPROVED = "msg_audit_approved";
+
+  }
+
+  /**
+   * 会话存档媒体类型
+   * https://developer.work.weixin.qq.com/document/path/91774
+   */
+  @UtilityClass
+  public static class MsgAuditMediaType {
+
+    /**
+     * 图片
+     */
+    public static final String IMAGE = "image";
+
+    /**
+     * 语音
+     */
+    public static final String VOICE = "voice";
+
+    /**
+     * 视频
+     */
+    public static final String VIDEO = "video";
+
+    /**
+     * 表情
+     */
+    public static final String EMOTION = "emotion";
+
+    /**
+     * 文件
+     */
+    public static final String FILE = "file";
+
+    /**
+     * 音频存档消息
+     */
+    public static final String MEETING_VOICE_CALL = "meeting_voice_call";
+
+    /**
+     * 音频共享文档消息
+     */
+    public static final String VOIP_DOC_SHARE = "voip_doc_share";
+
+    @UtilityClass
+    public static class MsgAuditSuffix {
+
+      public static final String JPG = ".jpg";
+      public static final String PNG = ".png";
+      public static final String GIF = ".gif";
+      public static final String MP4 = ".mp4";
+      public static final String AMR = ".amr";
+
+    }
 
   }
 
@@ -480,6 +589,11 @@ public class WxCpConsts {
      * 文件类型消息.
      */
     public static final String FILE = "file";
+
+    /**
+     * 文件类型消息.
+     */
+    public static final String VOICE = "voice";
 
     /**
      * 模版类型消息.

@@ -143,11 +143,19 @@ public interface WxCpApiPathConsts {
     /**
      * The constant GET_USER_DETAIL.
      */
-    String GET_USER_DETAIL = "/cgi-bin/user/getuserdetail";
+    String GET_USER_DETAIL = "/cgi-bin/auth/getuserdetail";
     /**
      * The constant URL_OAUTH2_AUTHORIZE.
      */
     String URL_OAUTH2_AUTHORIZE = "https://open.weixin.qq.com/connect/oauth2/authorize";
+    /**
+     * The constant GET_USER_INFO without agentId.
+     */
+    String GET_USER_AUTH_INFO = "/cgi-bin/auth/getuserinfo?code=%s";
+    /**
+     * The constant GET_TFA_INFO.
+     */
+    String GET_TFA_INFO = "/cgi-bin/auth/get_tfa_info";
   }
 
   /**
@@ -499,6 +507,41 @@ public interface WxCpApiPathConsts {
      * https://developer.work.weixin.qq.com/document/path/90269
      */
     String GET_OPEN_APPROVAL_DATA = "/cgi-bin/corp/getopenapprovaldata";
+
+    /**
+     * 文档
+     * https://developer.work.weixin.qq.com/document/path/97392
+     */
+    /**
+     * The constant WEDOC_CREATE_DOC.
+     */
+    String WEDOC_CREATE_DOC = "/cgi-bin/wedoc/create_doc";
+    /**
+     * The constant WEDOC_RENAME_DOC.
+     */
+    String WEDOC_RENAME_DOC = "/cgi-bin/wedoc/rename_doc";
+    /**
+     * The constant WEDOC_DEL_DOC.
+     */
+    String WEDOC_DEL_DOC = "/cgi-bin/wedoc/del_doc";
+    /**
+     * The constant WEDOC_GET_DOC_BASE_INFO.
+     */
+    String WEDOC_GET_DOC_BASE_INFO = "/cgi-bin/wedoc/get_doc_base_info";
+    /**
+     * The constant WEDOC_DOC_SHARE.
+     */
+    String WEDOC_DOC_SHARE = "/cgi-bin/wedoc/doc_share";
+
+    /**
+     * 邮件
+     * https://developer.work.weixin.qq.com/document/path/95486
+     */
+    /**
+     * The constant EXMAIL_APP_COMPOSE_SEND.
+     */
+    String EXMAIL_APP_COMPOSE_SEND = "/cgi-bin/exmail/app/compose_send";
+
   }
 
   /**
@@ -801,11 +844,11 @@ public interface WxCpApiPathConsts {
     /**
      * The constant GET_USERINFO3RD.
      */
-    String GET_USERINFO3RD = "/cgi-bin/service/getuserinfo3rd";
+    String GET_USERINFO3RD = "/cgi-bin/service/auth/getuserinfo3rd";
     /**
      * The constant GET_USERDETAIL3RD.
      */
-    String GET_USERDETAIL3RD = "/cgi-bin/service/getuserdetail3rd";
+    String GET_USERDETAIL3RD = "/cgi-bin/service/auth/getuserdetail3rd";
     /**
      * The constant GET_LOGIN_INFO.
      */
@@ -965,6 +1008,10 @@ public interface WxCpApiPathConsts {
      * The constant GET_USER_ID.
      */
     String GET_USER_ID = "/cgi-bin/user/getuserid";
+    /**
+     * The constant GET_USER_ID_BY_EMAIL.
+     */
+    String GET_USER_ID_BY_EMAIL = "/cgi-bin/user/get_userid_by_email";
     /**
      * The constant GET_EXTERNAL_CONTACT.
      */
@@ -1145,6 +1192,14 @@ public interface WxCpApiPathConsts {
      */
     String ADD_MSG_TEMPLATE = "/cgi-bin/externalcontact/add_msg_template";
     /**
+     * 提醒成员群发
+     */
+    String REMIND_GROUP_MSG_SEND = "/cgi-bin/externalcontact/remind_groupmsg_send";
+    /**
+     * 停止企业群发
+     */
+    String CANCEL_GROUP_MSG_SEND = "/cgi-bin/externalcontact/cancel_groupmsg_send";
+    /**
      * The constant SEND_WELCOME_MSG.
      */
     String SEND_WELCOME_MSG = "/cgi-bin/externalcontact/send_welcome_msg";
@@ -1178,6 +1233,12 @@ public interface WxCpApiPathConsts {
      * The constant GET_MOMENT_TASK_RESULT.
      */
     String GET_MOMENT_TASK_RESULT = "/cgi-bin/externalcontact/get_moment_task_result";
+
+    /**
+     * 停止发表企业朋友圈
+     */
+    String CANCEL_MOMENT_TASK = "/cgi-bin/externalcontact/cancel_moment_task";
+
     /**
      * The constant GET_MOMENT_LIST.
      */
@@ -1289,7 +1350,47 @@ public interface WxCpApiPathConsts {
      * The constant DEL_INTERCEPT_RULE.
      */
     String DEL_INTERCEPT_RULE = "/cgi-bin/externalcontact/del_intercept_rule";
+    /**
+     * 获取敏感词规则列表
+     */
+    String GET_INTERCEPT_RULE_LIST = "/cgi-bin/externalcontact/get_intercept_rule_list";
+    /**
+     * 获取敏感词规则详情
+     */
+    String GET_INTERCEPT_RULE = "/cgi-bin/externalcontact/get_intercept_rule";
+    /**
+     * 获取当前仍然有效的获客链接
+     */
+    String CUSTOMER_ACQUISITION_LINK_LIST = "/cgi-bin/externalcontact/customer_acquisition/list_link";
+    /**
+     * 获取获客链接详情
+     */
+    String CUSTOMER_ACQUISITION_LINK_GET = "/cgi-bin/externalcontact/customer_acquisition/get";
+    /**
+     * 创建获客链接
+     */
+    String CUSTOMER_ACQUISITION_LINK_CREATE = "/cgi-bin/externalcontact/customer_acquisition/create_link";
+    /**
+     * 编辑获客链接
+     */
+    String CUSTOMER_ACQUISITION_LINK_UPDATE = "/cgi-bin/externalcontact/customer_acquisition/update_link";
+    /**
+     * 删除获客链接
+     */
+    String CUSTOMER_ACQUISITION_LINK_DELETE = "/cgi-bin/externalcontact/customer_acquisition/delete_link";
+    /**
+     * 获取获客客户列表
+     */
+    String CUSTOMER_ACQUISITION_CUSTOMER = "/cgi-bin/externalcontact/customer_acquisition/customer";
+    /**
+     * 查询剩余使用量
+     */
+    String CUSTOMER_ACQUISITION_QUOTA = "/cgi-bin/externalcontact/customer_acquisition_quota";
 
+    /**
+     * 查询链接使用详情
+     */
+    String CUSTOMER_ACQUISITION_STATISTIC = "/cgi-bin/externalcontact/customer_acquisition/statistic";
   }
 
   /**
@@ -1360,6 +1461,12 @@ public interface WxCpApiPathConsts {
      * The constant GET_CORP_STATISTIC.
      */
     String GET_CORP_STATISTIC = "/cgi-bin/kf/get_corp_statistic";
+
+    /**
+     * The constant GET_SERVICER_STATISTIC.
+     */
+    String GET_SERVICER_STATISTIC = "/cgi-bin/kf/get_servicer_statistic";
+
     /**
      * The constant CUSTOMER_GET_UPGRADE_SERVICE_CONFIG.
      */
@@ -1449,6 +1556,30 @@ public interface WxCpApiPathConsts {
      * 发送应用消息
      * https://developer.work.weixin.qq.com/document/path/90250
      */
-    String SENG_MESSAGE="/cgi-bin/linkedcorp/message/send";
+    String SENG_MESSAGE = "/cgi-bin/linkedcorp/message/send";
+  }
+
+  interface IdConvert {
+
+    /**
+     * 将企业主体下的客户标签ID转换成服务商主体下的客户标签ID。
+     */
+    String EXTERNAL_TAG_ID = "/cgi-bin/idconvert/external_tagid";
+
+    /**
+     * 将微信客户的unionid转为第三方主体的external_userid
+     * 该接口有调用频率限制，当subject_type为0时，按企业作如下的限制：10万次/小时、48万次/天、750万次/月
+     */
+    String UNION_ID_TO_EXTERNAL_USER_ID = "/cgi-bin/idconvert/unionid_to_external_userid";
+
+    /**
+     * 将企业主体下的微信客服ID转换成服务商主体下的微信客服ID
+     */
+    String OPEN_KF_ID = "/cgi-bin/idconvert/open_kfid";
+
+    /**
+     * 将应用获取的外部用户临时idtmp_external_userid，转换为external_userid。
+     */
+    String CONVERT_TMP_EXTERNAL_USER_ID = "/cgi-bin/idconvert/convert_tmp_external_userid";
   }
 }
