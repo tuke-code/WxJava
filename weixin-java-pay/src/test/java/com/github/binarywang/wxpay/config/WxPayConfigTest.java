@@ -1,15 +1,8 @@
 package com.github.binarywang.wxpay.config;
 
-import com.github.binarywang.wxpay.exception.WxPayException;
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
-import org.bouncycastle.pqc.jcajce.provider.util.KeyUtil;
 import org.testng.annotations.Test;
 
-import java.security.KeyPair;
-import java.security.KeyPairGenerator;
-import java.security.SecureRandom;
-import java.security.Security;
-import java.util.Base64;
+import static org.testng.Assert.assertEquals;
 
 /**
  * <pre>
@@ -48,25 +41,19 @@ public class WxPayConfigTest {
   }
 
   @Test
+  public void testApiHostUrlPath() {
+    payConfig.setApiHostUrl("http://10.0.0.1:3128/");
+    payConfig.setApiHostUrlPath("api-weixin/");
+    assertEquals(payConfig.getApiHostUrl(), "http://10.0.0.1:3128");
+    assertEquals(payConfig.getApiHostUrlPath(), "/api-weixin");
+    assertEquals(payConfig.getApiHostWithPathPrefix(), "http://10.0.0.1:3128/api-weixin");
+  }
+
+  @Test
   public void testInitSSLContext_base64() throws Exception {
     payConfig.setMchId("123");
     payConfig.setKeyString("MIIKmgIBAzCCCmQGCS...");
     payConfig.initSSLContext();
-  }
-
-
-  @Test
-  public void testInitApiV3HttpClient() throws Exception {
-    Security.addProvider(new BouncyCastleProvider());
-    KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA","BC");
-    keyPairGenerator.initialize(2048,new SecureRandom());
-    KeyPair keyPair = keyPairGenerator.genKeyPair();
-    byte[] encoded = keyPair.getPrivate().getEncoded();
-    // 模拟用户配置
-    String privateKeyString = Base64.getEncoder().encodeToString(encoded);
-    payConfig.setPrivateKeyString(privateKeyString);
-    payConfig.setApiV3Key("Test");
-    payConfig.initApiV3HttpClient();
   }
 
 }

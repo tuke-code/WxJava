@@ -112,6 +112,10 @@ public interface WxCpApiPathConsts {
      * The constant AGENT_LIST.
      */
     String AGENT_LIST = "/cgi-bin/agent/list";
+    /**
+     * The constant AGENT_GET_ADMIN_LIST.
+     */
+    String AGENT_GET_ADMIN_LIST = "/cgi-bin/agent/get_admin_list";
   }
 
   /**
@@ -130,6 +134,10 @@ public interface WxCpApiPathConsts {
      * The constant WORKBENCH_DATA_SET.
      */
     String WORKBENCH_DATA_SET = "/cgi-bin/agent/set_workbench_data";
+    /**
+     * The constant WORKBENCH_BATCH_DATA_SET.
+     */
+    String WORKBENCH_BATCH_DATA_SET = "/cgi-bin/agent/batch_set_workbench_data";
   }
 
   /**
@@ -234,6 +242,12 @@ public interface WxCpApiPathConsts {
      * The constant JSSDK_MEDIA_GET.
      */
     String JSSDK_MEDIA_GET = "/cgi-bin/media/get/jssdk";
+
+    /** The constant GET_UPLOAD_BY_URL_RESULT. */
+    String GET_UPLOAD_BY_URL_RESULT = "/cgi-bin/media/get_upload_by_url_result";
+
+    /** The constant UPLOAD_BY_URL. */
+    String UPLOAD_BY_URL = "/cgi-bin/media/upload_by_url";
   }
 
   /**
@@ -423,6 +437,30 @@ public interface WxCpApiPathConsts {
      * The constant MEETINGROOM_DEL.
      */
     String MEETINGROOM_DEL = "/cgi-bin/oa/meetingroom/del";
+    /**
+     * The constant MEETINGROOM_GET_BOOKING_INFO.
+     */
+    String MEETINGROOM_GET_BOOKING_INFO = "/cgi-bin/oa/meetingroom/get_booking_info";
+    /**
+     * The constant MEETINGROOM_BOOK.
+     */
+    String MEETINGROOM_BOOK = "/cgi-bin/oa/meetingroom/book";
+    /**
+     * The constant MEETINGROOM_BOOK_BY_SCHEDULE.
+     */
+    String MEETINGROOM_BOOK_BY_SCHEDULE = "/cgi-bin/oa/meetingroom/book_by_schedule";
+    /**
+     * The constant MEETINGROOM_BOOK_BY_MEETING.
+     */
+    String MEETINGROOM_BOOK_BY_MEETING = "/cgi-bin/oa/meetingroom//book_by_meeting";
+    /**
+     * The constant MEETINGROOM_CANCEL_BOOK.
+     */
+    String MEETINGROOM_CANCEL_BOOK = "/cgi-bin/oa/meetingroom/cancel_book";
+    /**
+     * The constant MEETINGROOM_BOOKINFO_GET.
+     */
+    String MEETINGROOM_BOOKINFO_GET = "/cgi-bin/oa/meetingroom/bookinfo/get";
 
     /**
      * 微盘
@@ -536,6 +574,183 @@ public interface WxCpApiPathConsts {
      * The constant WEDOC_DOC_SHARE.
      */
     String WEDOC_DOC_SHARE = "/cgi-bin/wedoc/doc_share";
+    /**
+     * The constant WEDOC_DOC_GET_AUTH.
+     */
+    String WEDOC_DOC_GET_AUTH = "/cgi-bin/wedoc/doc_get_auth";
+    /**
+     * The constant WEDOC_MOD_DOC_JOIN_RULE.
+     */
+    String WEDOC_MOD_DOC_JOIN_RULE = "/cgi-bin/wedoc/mod_doc_join_rule";
+    /**
+     * The constant WEDOC_MOD_DOC_MEMBER.
+     */
+    String WEDOC_MOD_DOC_MEMBER = "/cgi-bin/wedoc/mod_doc_member";
+    /**
+     * The constant WEDOC_MOD_DOC_SAFETY_SETTING.
+     */
+    String WEDOC_MOD_DOC_SAFETY_SETTING = "/cgi-bin/wedoc/mod_doc_safty_setting";
+
+    /**
+     * @deprecated Use {@link #WEDOC_MOD_DOC_SAFETY_SETTING} instead.
+     */
+    @Deprecated
+    String WEDOC_MOD_DOC_SAFTY_SETTING = WEDOC_MOD_DOC_SAFETY_SETTING;
+    /**
+     * The constant WEDOC_CREATE_FORM.
+     */
+    String WEDOC_CREATE_FORM = "/cgi-bin/wedoc/create_collect";
+    /**
+     * The constant WEDOC_MODIFY_FORM.
+     */
+    String WEDOC_MODIFY_FORM = "/cgi-bin/wedoc/modify_collect";
+    /**
+     * The constant WEDOC_GET_FORM_INFO.
+     */
+    String WEDOC_GET_FORM_INFO = "/cgi-bin/wedoc/get_form_info";
+    /**
+     * The constant WEDOC_GET_FORM_STATISTIC.
+     */
+    String WEDOC_GET_FORM_STATISTIC = "/cgi-bin/wedoc/get_form_statistic";
+    /**
+     * The constant WEDOC_GET_FORM_ANSWER.
+     */
+    String WEDOC_GET_FORM_ANSWER = "/cgi-bin/wedoc/get_form_answer";
+
+    /**
+     * The constant WEDOC_SPREADSHEET_BATCH_UPDATE.
+     */
+    String WEDOC_SPREADSHEET_BATCH_UPDATE = "/cgi-bin/wedoc/spreadsheet/batch_update";
+
+    /**
+     * The constant WEDOC_SPREADSHEET_GET_SHEET_PROPERTIES.
+     */
+    String WEDOC_SPREADSHEET_GET_SHEET_PROPERTIES = "/cgi-bin/wedoc/spreadsheet/get_sheet_properties";
+
+    /**
+     * The constant WEDOC_SPREADSHEET_GET_SHEET_RANGE_DATA.
+     */
+    String WEDOC_SPREADSHEET_GET_SHEET_RANGE_DATA = "/cgi-bin/wedoc/spreadsheet/get_sheet_range_data";
+
+    /**
+     * The constant WEDOC_GET_DOC_DATA.
+     */
+    String WEDOC_GET_DOC_DATA = "/cgi-bin/wedoc/get_doc_data";
+
+    /**
+     * The constant WEDOC_MOD_DOC.
+     */
+    String WEDOC_MOD_DOC = "/cgi-bin/wedoc/mod_doc";
+
+    /**
+     * The constant WEDOC_UPLOAD_DOC_IMAGE.
+     */
+    String WEDOC_UPLOAD_DOC_IMAGE = "/cgi-bin/wedoc/upload_doc_image";
+
+    /**
+     * The constant WEDOC_ADD_ADMIN.
+     */
+    String WEDOC_ADD_ADMIN = "/cgi-bin/wedoc/add_admin";
+
+    /**
+     * The constant WEDOC_DEL_ADMIN.
+     */
+    String WEDOC_DEL_ADMIN = "/cgi-bin/wedoc/del_admin";
+
+    /**
+     * The constant WEDOC_GET_ADMIN_LIST.
+     */
+    String WEDOC_GET_ADMIN_LIST = "/cgi-bin/wedoc/get_admin_list";
+
+    /**
+     * The constant WEDOC_SMARTSHEET_GET_SHEET_AUTH.
+     */
+    String WEDOC_SMARTSHEET_GET_SHEET_AUTH = "/cgi-bin/wedoc/smartsheet/get_sheet_auth";
+
+    /**
+     * The constant WEDOC_SMARTSHEET_MOD_SHEET_AUTH.
+     */
+    String WEDOC_SMARTSHEET_MOD_SHEET_AUTH = "/cgi-bin/wedoc/smartsheet/mod_sheet_auth";
+
+    /**
+     * The constant WEDOC_SMARTSHEET_GET_SHEET.
+     */
+    String WEDOC_SMARTSHEET_GET_SHEET = "/cgi-bin/wedoc/smartsheet/get_sheet";
+
+    /**
+     * The constant WEDOC_SMARTSHEET_ADD_SHEET.
+     */
+    String WEDOC_SMARTSHEET_ADD_SHEET = "/cgi-bin/wedoc/smartsheet/add_sheet";
+
+    /**
+     * The constant WEDOC_SMARTSHEET_DELETE_SHEET.
+     */
+    String WEDOC_SMARTSHEET_DELETE_SHEET = "/cgi-bin/wedoc/smartsheet/delete_sheet";
+
+    /**
+     * The constant WEDOC_SMARTSHEET_UPDATE_SHEET.
+     */
+    String WEDOC_SMARTSHEET_UPDATE_SHEET = "/cgi-bin/wedoc/smartsheet/update_sheet";
+
+    /**
+     * The constant WEDOC_SMARTSHEET_GET_VIEWS.
+     */
+    String WEDOC_SMARTSHEET_GET_VIEWS = "/cgi-bin/wedoc/smartsheet/get_views";
+
+    /**
+     * The constant WEDOC_SMARTSHEET_ADD_VIEW.
+     */
+    String WEDOC_SMARTSHEET_ADD_VIEW = "/cgi-bin/wedoc/smartsheet/add_view";
+
+    /**
+     * The constant WEDOC_SMARTSHEET_DELETE_VIEWS.
+     */
+    String WEDOC_SMARTSHEET_DELETE_VIEWS = "/cgi-bin/wedoc/smartsheet/delete_views";
+
+    /**
+     * The constant WEDOC_SMARTSHEET_UPDATE_VIEW.
+     */
+    String WEDOC_SMARTSHEET_UPDATE_VIEW = "/cgi-bin/wedoc/smartsheet/update_view";
+
+    /**
+     * The constant WEDOC_SMARTSHEET_GET_FIELDS.
+     */
+    String WEDOC_SMARTSHEET_GET_FIELDS = "/cgi-bin/wedoc/smartsheet/get_fields";
+
+    /**
+     * The constant WEDOC_SMARTSHEET_ADD_FIELDS.
+     */
+    String WEDOC_SMARTSHEET_ADD_FIELDS = "/cgi-bin/wedoc/smartsheet/add_fields";
+
+    /**
+     * The constant WEDOC_SMARTSHEET_DELETE_FIELDS.
+     */
+    String WEDOC_SMARTSHEET_DELETE_FIELDS = "/cgi-bin/wedoc/smartsheet/delete_fields";
+
+    /**
+     * The constant WEDOC_SMARTSHEET_UPDATE_FIELDS.
+     */
+    String WEDOC_SMARTSHEET_UPDATE_FIELDS = "/cgi-bin/wedoc/smartsheet/update_fields";
+
+    /**
+     * The constant WEDOC_SMARTSHEET_GET_RECORDS.
+     */
+    String WEDOC_SMARTSHEET_GET_RECORDS = "/cgi-bin/wedoc/smartsheet/get_records";
+
+    /**
+     * The constant WEDOC_SMARTSHEET_ADD_RECORDS.
+     */
+    String WEDOC_SMARTSHEET_ADD_RECORDS = "/cgi-bin/wedoc/smartsheet/add_records";
+
+    /**
+     * The constant WEDOC_SMARTSHEET_DELETE_RECORDS.
+     */
+    String WEDOC_SMARTSHEET_DELETE_RECORDS = "/cgi-bin/wedoc/smartsheet/delete_records";
+
+    /**
+     * The constant WEDOC_SMARTSHEET_UPDATE_RECORDS.
+     */
+    String WEDOC_SMARTSHEET_UPDATE_RECORDS = "/cgi-bin/wedoc/smartsheet/update_records";
 
     /**
      * 邮件
@@ -667,7 +882,7 @@ public interface WxCpApiPathConsts {
     /**
      * The constant DEPARTMENT_LIST.
      */
-    String DEPARTMENT_LIST = "/cgi-bin/school/department/list?id=";
+    String DEPARTMENT_LIST = "/cgi-bin/school/department/list";
 
     /**
      * The constant GET_PAYMENT_RESULT.
@@ -822,6 +1037,10 @@ public interface WxCpApiPathConsts {
      */
     String GET_PERMANENT_CODE = "/cgi-bin/service/get_permanent_code";
     /**
+     * The constant GET_V2_PERMANENT_CODE.
+     */
+    String GET_V2_PERMANENT_CODE = "/cgi-bin/service/v2/get_permanent_code";
+    /**
      * The constant GET_SUITE_TOKEN.
      */
     String GET_SUITE_TOKEN = "/cgi-bin/service/get_suite_token";
@@ -863,6 +1082,15 @@ public interface WxCpApiPathConsts {
      */
     String GET_CUSTOMIZED_AUTH_URL = "/cgi-bin/service/get_customized_auth_url";
 
+    /**
+     * The constant GET_TEMPLATE_LIST.
+     */
+    String GET_TEMPLATE_LIST = "/cgi-bin/service/get_template_list";
+
+    /**
+     * The constant GET_CUSTOMIZED_APP_DETAIL.
+     */
+    String GET_CUSTOMIZED_APP_DETAIL = "/cgi-bin/service/get_customized_app_detail";
 
     /**
      * The constant CONTACT_SEARCH.
@@ -1062,6 +1290,10 @@ public interface WxCpApiPathConsts {
      */
     String GET_CONTACT_WAY = "/cgi-bin/externalcontact/get_contact_way";
     /**
+     * The constant LIST_CONTACT_WAY.
+     */
+    String LIST_CONTACT_WAY = "/cgi-bin/externalcontact/list_contact_way";
+    /**
      * The constant UPDATE_CONTACT_WAY.
      */
     String UPDATE_CONTACT_WAY = "/cgi-bin/externalcontact/update_contact_way";
@@ -1113,6 +1345,9 @@ public interface WxCpApiPathConsts {
      * The constant GET_CONTACT_DETAIL_BATCH.
      */
     String GET_CONTACT_DETAIL_BATCH = "/cgi-bin/externalcontact/batch/get_by_user?";
+
+    String GET_CONTACT_LIST = "/cgi-bin/externalcontact/contact_list?";
+
     /**
      * The constant UPDATE_REMARK.
      */
@@ -1585,5 +1820,68 @@ public interface WxCpApiPathConsts {
      * 将应用获取的外部用户临时idtmp_external_userid，转换为external_userid。
      */
     String CONVERT_TMP_EXTERNAL_USER_ID = "/cgi-bin/idconvert/convert_tmp_external_userid";
+  }
+
+  /**
+   * 智能机器人相关接口
+   * 官方文档: https://developer.work.weixin.qq.com/document/path/101039
+   */
+  interface IntelligentRobot {
+    /**
+     * 创建智能机器人
+     */
+    String CREATE_ROBOT = "/cgi-bin/intelligent_robot/create";
+    
+    /**
+     * 删除智能机器人
+     */
+    String DELETE_ROBOT = "/cgi-bin/intelligent_robot/delete";
+    
+    /**
+     * 更新智能机器人
+     */
+    String UPDATE_ROBOT = "/cgi-bin/intelligent_robot/update";
+    
+    /**
+     * 查询智能机器人
+     */
+    String GET_ROBOT = "/cgi-bin/intelligent_robot/get";
+    
+    /**
+     * 智能机器人会话
+     */
+    String CHAT = "/cgi-bin/intelligent_robot/chat";
+    
+    /**
+     * 重置智能机器人会话
+     */
+    String RESET_SESSION = "/cgi-bin/intelligent_robot/reset_session";
+
+    /**
+     * 智能机器人主动发送消息
+     * 官方文档: https://developer.work.weixin.qq.com/document/path/100719
+     */
+    String SEND_MESSAGE = "/cgi-bin/intelligent_robot/send_message";
+  }
+
+  /**
+   * 人事助手相关接口.
+   * 官方文档：https://developer.work.weixin.qq.com/document/path/99132
+   */
+  interface Hr {
+    /**
+     * 获取员工档案字段信息.
+     */
+    String GET_FIELD_INFO = "/cgi-bin/hr/get_fields";
+
+    /**
+     * 获取员工档案数据.
+     */
+    String GET_EMPLOYEE_FIELD_INFO = "/cgi-bin/hr/get_staff_info";
+
+    /**
+     * 更新员工档案数据.
+     */
+    String UPDATE_EMPLOYEE_FIELD_INFO = "/cgi-bin/hr/update_staff_info";
   }
 }
