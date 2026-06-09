@@ -24,13 +24,6 @@
 <div align="center">
   <table cellspacing="0" cellpadding="0" width="500">
     <tr>
-      <td align="center" colspan="3">
-        <a href="http://www.ccflow.org/?from=wxjava" target="_blank">
-          <img height="120" src="https://ccfast.cc/AD/ccflow2.png" alt="ccflow">
-        </a>
-      </td>
-    </tr>
-    <tr>
       <td align="center" colspan="2">
         <a href="https://www.jeequan.com/product/jeepay.html" target="_blank">
           <img height="120" src="https://jeequan.oss-cn-beijing.aliyuncs.com/jeepay/img/wxjava_jeepay.png" alt="计全支付Jeepay,开源支付系统">
