@@ -141,6 +141,7 @@
     <httpclient5.version>5.5.2</httpclient5.version>
     <jetty.version>9.4.57.v20241219</jetty.version> <!-- 这个不能用10以上的版本，不支持jdk8-->
     <bouncycastle.version>1.84</bouncycastle.version>
+    <spring-data-redis.version>2.3.3.RELEASE</spring-data-redis.version>
   </properties>
   <dependencyManagement>
     <dependencies>
@@ -322,13 +323,6 @@
             <artifactId>reactive-streams</artifactId>
           </exclusion>
         </exclusions>
-      </dependency>
-      <dependency>
-        <groupId>org.springframework.data</groupId>
-        <artifactId>spring-data-redis</artifactId>
-        <version>2.3.3.RELEASE</version>
-        <optional>true</optional>
-        <scope>provided</scope>
       </dependency>
       <dependency>
         <groupId>org.projectlombok</groupId>
