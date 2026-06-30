@@ -4,14 +4,16 @@ import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.api.impl.WxMaServiceImpl;
 import cn.binarywang.wx.miniapp.bean.WxMaAuditMediaUploadResult;
 import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
+import cn.binarywang.wx.miniapp.bean.WxMaUploadAuthMaterialResult;
 import cn.binarywang.wx.miniapp.config.WxMaConfig;
-import cn.binarywang.wx.miniapp.executor.AuditMediaUploadRequestExecutor;
+import cn.binarywang.wx.miniapp.executor.UploadAuthMaterialRequestExecutor;
 import cn.binarywang.wx.miniapp.json.WxMaGsonBuilder;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import lombok.Getter;
+import me.chanjar.weixin.common.bean.CommonUploadParam;
 import me.chanjar.weixin.common.error.WxErrorException;
 import me.chanjar.weixin.open.api.*;
 import me.chanjar.weixin.open.bean.ma.WxMaPrefetchDomain;
@@ -45,17 +47,29 @@ public class WxOpenMaServiceImpl extends WxMaServiceImpl implements WxOpenMaServ
   @Getter
   private final WxOpenMaBasicService basicService;
   @Getter
+  private final WxOpenMaAuthService authService;
+  @Getter
+  private final WxOpenMaIcpService icpService;
+  @Getter
   private final WxOpenMaPrivacyService privacyService;
   @Getter
   private final WxOpenMaShoppingOrdersService shoppingOrdersService;
+  @Getter
+  private final WxOpenMaEmbeddedService embeddedService;
+  @Getter
+  private final WxOpenMaAuthAndIcpService authAndIcpService;
 
   public WxOpenMaServiceImpl(WxOpenComponentService wxOpenComponentService, String appId, WxMaConfig wxMaConfig) {
     this.wxOpenComponentService = wxOpenComponentService;
     this.appId = appId;
     this.wxMaConfig = wxMaConfig;
-    this.basicService = new WxOpenMaBasicServiceImpl(this);
+    this.basicService = new WxOpenMaBasicServiceImpl(this, wxOpenComponentService);
+    this.authService = new WxOpenMaAuthServiceImpl(this);
+    this.icpService = new WxOpenMaIcpServiceImpl(this);
     this.privacyService = new WxOpenMaPrivacyServiceImpl(this);
     this.shoppingOrdersService = new WxOpenMaShoppingOrdersServiceImpl(this);
+    this.embeddedService = new WxOpenMaEmbeddedServiceImpl(this);
+    this.authAndIcpService = new WxOpenMaAuthAndIcpServiceImpl(this);
     initHttp();
   }
 
@@ -100,6 +114,25 @@ public class WxOpenMaServiceImpl extends WxMaServiceImpl implements WxOpenMaServ
   }
 
   @Override
+  public WxOpenMaDomainResult modifyDomainDirectly(String action, List<String> requestDomains, List<String> wsRequestDomains,
+                                                   List<String> uploadDomains, List<String> downloadDomains,
+                                                   List<String> udpDomains, List<String> tcpDomains) throws WxErrorException {
+    JsonObject requestJson = new JsonObject();
+    requestJson.addProperty(ACTION, action);
+    if (!ACTION_GET.equals(action)) {
+      requestJson.add("requestdomain", toJsonArray(requestDomains));
+      requestJson.add("wsrequestdomain", toJsonArray(wsRequestDomains));
+      requestJson.add("uploaddomain", toJsonArray(uploadDomains));
+      requestJson.add("downloaddomain", toJsonArray(downloadDomains));
+      requestJson.add("udpdomain", toJsonArray(udpDomains));
+      requestJson.add("tcpdomain", toJsonArray(tcpDomains));
+    }
+
+    String response = post(API_MODIFY_DOMAIN_DIRECTLY, GSON.toJson(requestJson));
+    return WxMaGsonBuilder.create().fromJson(response, WxOpenMaDomainResult.class);
+  }
+
+  @Override
   public String getWebViewDomain() throws WxErrorException {
     return setWebViewDomain(ACTION_GET, null);
   }
@@ -123,6 +156,22 @@ public class WxOpenMaServiceImpl extends WxMaServiceImpl implements WxOpenMaServ
   @Override
   public WxOpenMaWebDomainResult setWebViewDomainInfo(String action, List<String> domainList) throws WxErrorException {
     String response = this.setWebViewDomain(action, domainList);
+    return WxMaGsonBuilder.create().fromJson(response, WxOpenMaWebDomainResult.class);
+  }
+
+  @Override
+  public String setWebViewDomainDirectly(String action, List<String> domainList) throws WxErrorException {
+    JsonObject requestJson = new JsonObject();
+    requestJson.addProperty(ACTION, action);
+    if (!ACTION_GET.equals(action)) {
+      requestJson.add("webviewdomain", toJsonArray(domainList));
+    }
+    return post(API_SET_WEBVIEW_DOMAIN_DIRECTLY, GSON.toJson(requestJson));
+  }
+
+  @Override
+  public WxOpenMaWebDomainResult setWebViewDomainDirectlyInfo(String action, List<String> domainList) throws WxErrorException {
+    String response = this.setWebViewDomainDirectly(action, domainList);
     return WxMaGsonBuilder.create().fromJson(response, WxOpenMaWebDomainResult.class);
   }
 
@@ -342,6 +391,12 @@ public class WxOpenMaServiceImpl extends WxMaServiceImpl implements WxOpenMaServ
   }
 
   @Override
+  public WxOpenMaGetCodePrivacyInfoResult getCodePrivacyInfo() throws WxErrorException {
+    String response = get(API_GET_CODE_PRIVACY_INFO, null);
+    return WxMaGsonBuilder.create().fromJson(response, WxOpenMaGetCodePrivacyInfoResult.class);
+  }
+
+  @Override
   public WxOpenMaQueryQuotaResult queryQuota() throws WxErrorException {
     String response = get(API_QUERY_QUOTA, null);
     return WxMaGsonBuilder.create().fromJson(response, WxOpenMaQueryQuotaResult.class);
@@ -427,7 +482,9 @@ public class WxOpenMaServiceImpl extends WxMaServiceImpl implements WxOpenMaServ
 
   @Override
   public WxMaAuditMediaUploadResult uploadMedia(File file) throws WxErrorException {
-    return (WxMaAuditMediaUploadResult) this.execute(AuditMediaUploadRequestExecutor.create(getRequestHttp()), API_AUDIT_UPLOAD_MEDIA, file);
+    CommonUploadParam param = CommonUploadParam.fromFile("media", file);
+    String result = upload(API_AUDIT_UPLOAD_MEDIA, param);
+    return WxMaAuditMediaUploadResult.fromJson(result);
   }
 
   private JsonArray toJsonArray(List<String> strList) {
@@ -465,5 +522,10 @@ public class WxOpenMaServiceImpl extends WxMaServiceImpl implements WxOpenMaServ
     params.addProperty(ACTION, "apply");
     String response = post(API_WX_APPLY_LIVE_INFO, GSON.toJson(params));
     return WxMaGsonBuilder.create().fromJson(response, WxOpenMaApplyLiveInfoResult.class);
+  }
+
+  @Override
+  public WxMaUploadAuthMaterialResult uploadAuthMaterial(File file) throws WxErrorException {
+    return (WxMaUploadAuthMaterialResult) this.execute(UploadAuthMaterialRequestExecutor.create(getRequestHttp()), API_UPLOAD_AUTH_MATERIAL, file);
   }
 }

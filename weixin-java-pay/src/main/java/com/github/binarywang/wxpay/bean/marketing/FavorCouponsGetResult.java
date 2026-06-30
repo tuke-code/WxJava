@@ -1,5 +1,6 @@
 package com.github.binarywang.wxpay.bean.marketing;
 
+import com.github.binarywang.wxpay.bean.result.BaseWxPayV3Result;
 import com.google.gson.annotations.SerializedName;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,7 +14,7 @@ import java.io.Serializable;
  */
 @NoArgsConstructor
 @Data
-public class FavorCouponsGetResult implements Serializable {
+public class FavorCouponsGetResult extends BaseWxPayV3Result {
 
   private static final long serialVersionUID = 1L;
 
@@ -171,7 +172,7 @@ public class FavorCouponsGetResult implements Serializable {
      * 示例值：100
      */
     @SerializedName(value = "single_price_max")
-    private Integer singlePriceMax;
+    private Long singlePriceMax;
 
     /**
      * 减至后的优惠单价
@@ -180,7 +181,7 @@ public class FavorCouponsGetResult implements Serializable {
      * 示例值：100
      */
     @SerializedName(value = "cut_to_price")
-    private Integer cutToPrice;
+    private Long cutToPrice;
   }
 
   @Data

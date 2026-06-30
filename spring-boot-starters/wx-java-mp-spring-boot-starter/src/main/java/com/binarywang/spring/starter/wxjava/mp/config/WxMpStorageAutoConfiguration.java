@@ -9,8 +9,10 @@ import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.redis.JedisWxRedisOps;
 import me.chanjar.weixin.common.redis.RedisTemplateWxRedisOps;
 import me.chanjar.weixin.common.redis.WxRedisOps;
-import me.chanjar.weixin.mp.config.WxMpHostConfig;
+import me.chanjar.weixin.common.util.http.apache.ApacheHttpClientBuilder;
+import me.chanjar.weixin.common.util.http.apache.DefaultApacheHttpClientBuilder;
 import me.chanjar.weixin.mp.config.WxMpConfigStorage;
+import me.chanjar.weixin.mp.config.WxMpHostConfig;
 import me.chanjar.weixin.mp.config.impl.WxMpDefaultConfigImpl;
 import me.chanjar.weixin.mp.config.impl.WxMpRedisConfigImpl;
 import org.apache.commons.lang3.StringUtils;
@@ -122,7 +124,20 @@ public class WxMpStorageAutoConfiguration {
     config.setSecret(properties.getSecret());
     config.setToken(properties.getToken());
     config.setAesKey(properties.getAesKey());
-
+    WxMpProperties.ConfigStorage storage = properties.getConfigStorage();
+    // 设置自定义的HttpClient超时配置
+    ApacheHttpClientBuilder clientBuilder = config.getApacheHttpClientBuilder();
+    if (clientBuilder == null) {
+      clientBuilder = DefaultApacheHttpClientBuilder.get();
+    }
+    if (clientBuilder instanceof DefaultApacheHttpClientBuilder) {
+      DefaultApacheHttpClientBuilder defaultBuilder = (DefaultApacheHttpClientBuilder) clientBuilder;
+      defaultBuilder.setConnectionTimeout(storage.getConnectionTimeout());
+      defaultBuilder.setSoTimeout(storage.getSoTimeout());
+      defaultBuilder.setConnectionRequestTimeout(storage.getConnectionRequestTimeout());
+      config.setApacheHttpClientBuilder(defaultBuilder);
+    }
+    config.setUseStableAccessToken(wxMpProperties.isUseStableAccessToken());
     config.setHttpProxyHost(configStorageProperties.getHttpProxyHost());
     config.setHttpProxyUsername(configStorageProperties.getHttpProxyUsername());
     config.setHttpProxyPassword(configStorageProperties.getHttpProxyPassword());

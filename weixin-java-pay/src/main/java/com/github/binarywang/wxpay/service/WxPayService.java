@@ -6,6 +6,8 @@ import com.github.binarywang.wxpay.bean.notify.*;
 import com.github.binarywang.wxpay.bean.request.*;
 import com.github.binarywang.wxpay.bean.result.*;
 import com.github.binarywang.wxpay.bean.result.enums.TradeTypeEnum;
+import com.github.binarywang.wxpay.bean.result.enums.GlobalTradeTypeEnum;
+import com.github.binarywang.wxpay.bean.transfer.TransferBillsNotifyResult;
 import com.github.binarywang.wxpay.config.WxPayConfig;
 import com.github.binarywang.wxpay.constant.WxPayConstants;
 import com.github.binarywang.wxpay.exception.WxPayException;
@@ -38,16 +40,18 @@ public interface WxPayService {
    * Map里 加入新的 {@link WxPayConfig}，适用于动态添加新的微信商户配置.
    *
    * @param mchId       商户id
+   * @param appId       微信应用id
    * @param wxPayConfig 新的微信配置
    */
-  void addConfig(String mchId, WxPayConfig wxPayConfig);
+  void addConfig(String mchId, String appId, WxPayConfig wxPayConfig);
 
   /**
-   * 从 Map中 移除 {@link String mchId} 所对应的 {@link WxPayConfig}，适用于动态移除微信商户配置.
+   * 从 Map中 移除 {@link String mchId} 和 {@link String appId} 所对应的 {@link WxPayConfig}，适用于动态移除微信商户配置.
    *
    * @param mchId 对应商户的标识
+   * @param appId 微信应用id
    */
-  void removeConfig(String mchId);
+  void removeConfig(String mchId, String appId);
 
   /**
    * 注入多个 {@link WxPayConfig} 的实现. 并为每个 {@link WxPayConfig} 赋予不同的 {@link String mchId} 值
@@ -69,17 +73,19 @@ public interface WxPayService {
    * 进行相应的商户切换.
    *
    * @param mchId 商户标识
+   * @param appId 微信应用id
    * @return 切换是否成功 boolean
    */
-  boolean switchover(String mchId);
+  boolean switchover(String mchId, String appId);
 
   /**
    * 进行相应的商户切换.
    *
    * @param mchId 商户标识
+   * @param appId 微信应用id
    * @return 切换成功 ，则返回当前对象，方便链式调用，否则抛出异常
    */
-  WxPayService switchoverTo(String mchId);
+  WxPayService switchoverTo(String mchId, String appId);
 
   /**
    * 发送post请求，得到响应字节数组.
@@ -102,6 +108,19 @@ public interface WxPayService {
    * @throws WxPayException the wx pay exception
    */
   String post(String url, String requestStr, boolean useKey) throws WxPayException;
+
+
+  /**
+   * 发送post请求，得到响应字符串.
+   *
+   * @param url        请求地址
+   * @param requestStr 请求信息
+   * @param useKey     是否使用证书
+   * @param mimeType   Content-Type请求头
+   * @return 返回请求结果字符串 string
+   * @throws WxPayException the wx pay exception
+   */
+  String post(String url, String requestStr, boolean useKey, String mimeType) throws WxPayException;
 
   /**
    * 发送post请求，得到响应字符串.
@@ -211,6 +230,13 @@ public interface WxPayService {
   WxEntrustPapService getWxEntrustPapService();
 
   /**
+   * 获取微信押金支付服务类
+   *
+   * @return deposit service
+   */
+  WxDepositService getWxDepositService();
+
+  /**
    * 获取批量转账到零钱服务类.
    *
    * @return the Batch transfer to change service
@@ -310,6 +336,13 @@ public interface WxPayService {
    * @return the brand merchant transfer service
    */
   BrandMerchantTransferService getBrandMerchantTransferService();
+
+  /**
+   * 获取微信支付预约扣费服务类 (连续包月功能)
+   *
+   * @return the subscription billing service
+   */
+  SubscriptionBillingService getSubscriptionBillingService();
 
   /**
    * 设置企业付款服务类，允许开发者自定义实现类.
@@ -616,10 +649,10 @@ public interface WxPayService {
   /**
    * 调用统一下单接口，并组装生成支付所需参数对象.
    *
-   * @param <T>       请使用{@link com.github.binarywang.wxpay.bean.result.WxPayUnifiedOrderV3Result}里的内部类或字段
+   * @param <T>       请使用{@link WxPayUnifiedOrderV3Result}里的内部类或字段
    * @param tradeType the trade type
    * @param request   统一下单请求参数
-   * @return 返回 {@link com.github.binarywang.wxpay.bean.result.WxPayUnifiedOrderV3Result}里的内部类或字段
+   * @return 返回 {@link WxPayUnifiedOrderV3Result}里的内部类或字段
    * @throws WxPayException the wx pay exception
    */
   <T> T createOrderV3(TradeTypeEnum tradeType, WxPayUnifiedOrderV3Request request) throws WxPayException;
@@ -627,13 +660,24 @@ public interface WxPayService {
   /**
    * 服务商模式调用统一下单接口，并组装生成支付所需参数对象.
    *
-   * @param <T>       请使用{@link com.github.binarywang.wxpay.bean.result.WxPayUnifiedOrderV3Result}里的内部类或字段
+   * @param <T>       请使用{@link WxPayUnifiedOrderV3Result}里的内部类或字段
    * @param tradeType the trade type
    * @param request   统一下单请求参数
-   * @return 返回 {@link com.github.binarywang.wxpay.bean.result.WxPayUnifiedOrderV3Result}里的内部类或字段
+   * @return 返回 {@link WxPayUnifiedOrderV3Result}里的内部类或字段
    * @throws WxPayException the wx pay exception
    */
   <T> T createPartnerOrderV3(TradeTypeEnum tradeType, WxPayPartnerUnifiedOrderV3Request request) throws WxPayException;
+
+  /**
+   * 境外微信支付调用统一下单接口，并组装生成支付所需参数对象.
+   *
+   * @param <T>       请使用{@link WxPayUnifiedOrderV3Result}里的内部类或字段
+   * @param tradeType the global trade type
+   * @param request   境外统一下单请求参数
+   * @return 返回 {@link WxPayUnifiedOrderV3Result}里的内部类或字段
+   * @throws WxPayException the wx pay exception
+   */
+  <T> T createOrderV3Global(GlobalTradeTypeEnum tradeType, WxPayUnifiedOrderV3GlobalRequest request) throws WxPayException;
 
   /**
    * 在发起微信支付前，需要调用统一下单接口，获取"预支付交易会话标识"
@@ -654,6 +698,16 @@ public interface WxPayService {
    * @throws WxPayException the wx pay exception
    */
   WxPayUnifiedOrderV3Result unifiedOrderV3(TradeTypeEnum tradeType, WxPayUnifiedOrderV3Request request) throws WxPayException;
+
+  /**
+   * 境外微信支付在发起支付前，需要调用统一下单接口，获取"预支付交易会话标识"
+   *
+   * @param tradeType the global trade type
+   * @param request   境外请求对象，注意一些参数如appid、mchid等不用设置，方法内会自动从配置对象中获取到（前提是对应配置中已经设置）
+   * @return the wx pay unified order result
+   * @throws WxPayException the wx pay exception
+   */
+  WxPayUnifiedOrderV3Result unifiedOrderV3Global(GlobalTradeTypeEnum tradeType, WxPayUnifiedOrderV3GlobalRequest request) throws WxPayException;
 
   /**
    * <pre>
@@ -784,6 +838,32 @@ public interface WxPayService {
    * @throws WxPayException the wx pay exception
    */
   WxPayRefundV3Result refundV3(WxPayRefundV3Request request) throws WxPayException;
+
+  /**
+   * <pre>
+   * 微信支付-服务商申请退款.
+   * 应用场景
+   * 当交易发生之后一年内，由于买家或者卖家的原因需要退款时，卖家可以通过退款接口将支付金额退还给买家，微信支付将在收到退款请求并且验证成功之后，将支付款按原路退还至买家账号上。
+   *
+   * 注意：
+   * 1、交易时间超过一年的订单无法提交退款
+   * 2、微信支付退款支持单笔交易分多次退款（不超50次），多次退款需要提交原支付订单的商户订单号和设置不同的退款单号。申请退款总金额不能超过订单金额。 一笔退款失败后重新提交，请不要更换退款单号，请使用原商户退款单号
+   * 3、错误或无效请求频率限制：6qps，即每秒钟异常或错误的退款申请请求不超过6次
+   * 4、每个支付订单的部分退款次数不能超过50次
+   * 5、如果同一个用户有多笔退款，建议分不同批次进行退款，避免并发退款导致退款失败
+   * 6、申请退款接口的返回仅代表业务的受理情况，具体退款是否成功，需要通过退款查询接口获取结果
+   * 7、一个月之前的订单申请退款频率限制为：5000/min
+   *
+   * 详见 <a href="https://pay.weixin.qq.com/wiki/doc/apiv3_partner/apis/chapter4_1_9.shtml">https://pay.weixin.qq.com/wiki/doc/apiv3_partner/apis/chapter4_1_9.shtml</a>
+   * 接口地址
+   * https://api.mch.weixin.qq.com/v3/refund/domestic/refunds
+   * </pre>
+   *
+   * @param request 请求对象
+   * @return 退款操作结果 wx pay refund result
+   * @throws WxPayException the wx pay exception
+   */
+  WxPayRefundV3Result partnerRefundV3(WxPayPartnerRefundV3Request request) throws WxPayException;
 
   /**
    * <pre>
@@ -979,6 +1059,28 @@ public interface WxPayService {
    * @throws WxPayException the wx pay exception
    */
   WxPayRefundNotifyV3Result parseRefundNotifyV3Result(String notifyData, SignatureHeader header) throws WxPayException;
+
+  /**
+   * 解析商家转账批次回调通知
+   * https://pay.weixin.qq.com/docs/merchant/apis/batch-transfer-to-balance/transfer-batch-callback-notice.html
+   *
+   * @param notifyData
+   * @param header
+   * @return
+   * @throws WxPayException
+   */
+  WxPayTransferBatchesNotifyV3Result parseTransferBatchesNotifyV3Result(String notifyData, SignatureHeader header) throws WxPayException;
+
+  /**
+   * 解析商家转账批次回调通知
+   * https://pay.weixin.qq.com/doc/v3/merchant/4012712115
+   *
+   * @param notifyData
+   * @param header
+   * @return
+   * @throws WxPayException
+   */
+  TransferBillsNotifyResult parseTransferBillsNotifyV3Result(String notifyData, SignatureHeader header) throws WxPayException;
 
   /**
    * 解析服务商模式退款结果通知
@@ -1266,6 +1368,25 @@ public interface WxPayService {
 
   /**
    * <pre>
+   * 付款码支付API.
+   * 文档地址：<a href="https://pay.weixin.qq.com/docs/merchant/apis/code-payment-v3/direct/code-pay.html">https://pay.weixin.qq.com/docs/merchant/apis/code-payment-v3/direct/code-pay.html</a>
+   * 应用场景：
+   * 收银员使用扫码设备读取微信用户付款码以后，二维码或条码信息会传送至商户收银台，由商户收银台或者商户后台调用该接口发起支付。
+   * 提醒1：提交支付请求后微信会同步返回支付结果。当返回结果为“系统错误”时，商户系统等待5秒后调用【查询订单API】，查询支付实际交易结果；当返回结果为“USERPAYING”时，商户系统可设置间隔时间(建议10秒)重新查询支付结果，直到支付成功或超时(建议30秒)；
+   * 提醒2：在调用查询接口返回后，如果交易状况不明晰，请调用【撤销订单API】，此时如果交易失败则关闭订单，该单不能再支付成功；如果交易成功，则将扣款退回到用户账户。当撤销无返回或错误时，请再次调用。注意：请勿扣款后立即调用【撤销订单API】,建议至少15秒后再调用。撤销订单API需要双向证书。
+   * 接口地址：   <a href="https://pay.weixin.qq.com/docs/merchant/apis/code-payment-v3/direct/reverse.html">https://pay.weixin.qq.com/docs/merchant/apis/code-payment-v3/direct/reverse.html</a>
+   * 是否需要证书：不需要。
+   * </pre>
+   *
+   * @param request the request
+   * @return the wx codepay result
+   * @throws WxPayException the wx pay exception
+   */
+  WxPayCodepayResult codepay(WxPayCodepayRequest request) throws WxPayException;
+
+
+  /**
+   * <pre>
    * 撤销订单API.
    * 文档地址：https://pay.weixin.qq.com/wiki/doc/api/micropay.php?chapter=9_11&index=3
    * 应用场景：
@@ -1283,6 +1404,47 @@ public interface WxPayService {
    * @throws WxPayException the wx pay exception
    */
   WxPayOrderReverseResult reverseOrder(WxPayOrderReverseRequest request) throws WxPayException;
+
+  /**
+   * <pre>
+   * 撤销订单API.
+   * 文档地址：https://pay.weixin.qq.com/docs/merchant/apis/code-payment-v3/direct/reverse.html
+   * 应用场景：
+   *  支付交易返回失败或支付系统超时，调用该接口撤销交易。如果此订单用户支付失败，微信支付系统会将此订单关闭；
+   *  如果用户支付成功，微信支付系统会将此订单资金退还给用户。
+   *  注意：7天以内的交易单可调用撤销，其他正常支付的单如需实现相同功能请调用申请退款API。
+   *  提交支付交易后调用【查询订单API】，没有明确的支付结果再调用【撤销订单API】。
+   *  调用支付接口后请勿立即调用撤销订单API，建议支付后至少15s后再调用撤销订单接口。
+   *  接口链接 ：https://pay.weixin.qq.com/docs/merchant/apis/code-payment-v3/direct/reverse.html
+   *  是否需要证书：请求需要双向证书。
+   * </pre>
+   *
+   * @param request the request
+   * @return the wx pay order reverse result
+   * @throws WxPayException the wx pay exception
+   */
+  WxPayOrderReverseV3Result reverseOrderV3(WxPayOrderReverseV3Request request) throws WxPayException;
+
+  /**
+   * <pre>
+   * 撤销订单API.
+   * 文档地址：https://pay.weixin.qq.com/docs/merchant/apis/code-payment-v3/direct/reverse.html
+   * 应用场景：
+   *  支付交易返回失败或支付系统超时，调用该接口撤销交易。如果此订单用户支付失败，微信支付系统会将此订单关闭；
+   *  如果用户支付成功，微信支付系统会将此订单资金退还给用户。
+   *  注意：7天以内的交易单可调用撤销，其他正常支付的单如需实现相同功能请调用申请退款API。
+   *  提交支付交易后调用【查询订单API】，没有明确的支付结果再调用【撤销订单API】。
+   *  调用支付接口后请勿立即调用撤销订单API，建议支付后至少15s后再调用撤销订单接口。
+   *  接口链接 ：https://pay.weixin.qq.com/docs/merchant/apis/code-payment-v3/direct/reverse.html
+   *  是否需要证书：请求需要双向证书。
+   * </pre>
+   *
+   * @param outTradeNo 商户系统内部的订单号
+   * @return the wx pay order reverse result
+   * @throws WxPayException the wx pay exception
+   */
+  WxPayOrderReverseV3Result reverseOrderV3(String outTradeNo) throws WxPayException;
+
 
   /**
    * <pre>
@@ -1348,6 +1510,7 @@ public interface WxPayService {
    * 是否需要证书： 否
    * 请求方式： POST
    * 文档地址：https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=23_1
+   * 注意: 微信暂不支持api v3
    * </pre>
    *
    * @return the sandbox sign key
@@ -1524,6 +1687,13 @@ public interface WxPayService {
   TransferService getTransferService();
 
   /**
+   * 获取运营工具-商家转账服务类
+   *
+   * @return the business operation transfer service
+   */
+  BusinessOperationTransferService getBusinessOperationTransferService();
+
+  /**
    * 获取服务商支付分服务类
    *
    * @return the partner pay score service
@@ -1532,7 +1702,23 @@ public interface WxPayService {
 
   /**
    * 获取服务商直股份签约计划服务类
-   * @return  the partner pay score sign plan service
+   *
+   * @return the partner pay score sign plan service
    */
   PartnerPayScoreSignPlanService getPartnerPayScoreSignPlanService();
+
+  /**
+   * 获取实名验证服务类
+   *
+   * @return the real name service
+   */
+  RealNameService getRealNameService();
+  
+  /**
+   * 获取医保支付服务类
+   *
+   * @return the merchant transfer service
+   */
+  MiPayService getMiPayService();
+
 }
