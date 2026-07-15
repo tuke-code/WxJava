@@ -9,14 +9,10 @@
 [![使用IntelliJ IDEA开发维护](https://img.shields.io/badge/IntelliJ%20IDEA-支持-blue.svg)](https://www.jetbrains.com/?from=WxJava-weixin-java-tools)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
-<div align="center">
-  <a href="https://hellogithub.com/repository/6de6147050c94db4aedfd7098d19f8d8" target="_blank">
-    <img src="https://api.hellogithub.com/v1/widgets/recommend.svg?rid=6de6147050c94db4aedfd7098d19f8d8&claim_uid=mwKh0tILBfjlezR" alt="Featured｜HelloGitHub" width="250" height="54" />
-  </a>
-  <a href="https://trendshift.io/repositories/12152" target="_blank">
-    <img src="https://trendshift.io/api/badge/repositories/12152" alt="binarywang%2FWxJava | 趋势转变" width="250" height="55" />
-  </a>
-</div>
+[<img src="https://api.hellogithub.com/v1/widgets/recommend.svg?rid=6de6147050c94db4aedfd7098d19f8d8&claim_uid=mwKh0tILBfjlezR" alt="Featured｜HelloGitHub" width="250" height="55">](https://hellogithub.com/repository/6de6147050c94db4aedfd7098d19f8d8)
+[<img src="https://trendshift.io/api/badge/repositories/12152" alt="binarywang/WxJava | 趋势转变" width="250" height="55">](https://trendshift.io/repositories/12152)
+[<img src="https://api.star-history.com/badge?repo=binarywang/WxJava" alt="Star History" width="250" height="55">](https://www.star-history.com/binarywang/wxjava)
+
 
 ### 微信 `Java` 开发工具包，支持包括微信支付、开放平台、公众号、企业微信、视频号、小程序等微信功能模块的后端开发。
 
@@ -286,4 +282,11 @@ System.out.println(result.getOpenid());
 </a>
 
 ### GitHub Stargazers over time
-[![Star History Chart](https://api.star-history.com/svg?repos=binarywang/WxJava&type=Date)](https://star-history.com/#binarywang/WxJava&Date)
+
+<a href="https://www.star-history.com/?repos=binarywang%2FWxJava&type=date&legend=top-left">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=binarywang/WxJava&type=date&theme=dark&legend=top-left&sealed_token=OP4kucyxzW7JGPofQJzItoAcfUD3qaphFu3Ep_dTal_VwcvtSLVGMA_T-1emtwK6w0g5eKVdfZyfBBVYlcFqvLR9Ehk4P3uoD5yH44HUIT2zjvnNTIYhUA" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=binarywang/WxJava&type=date&legend=top-left&sealed_token=OP4kucyxzW7JGPofQJzItoAcfUD3qaphFu3Ep_dTal_VwcvtSLVGMA_T-1emtwK6w0g5eKVdfZyfBBVYlcFqvLR9Ehk4P3uoD5yH44HUIT2zjvnNTIYhUA" />
+   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=binarywang/WxJava&type=date&legend=top-left&sealed_token=OP4kucyxzW7JGPofQJzItoAcfUD3qaphFu3Ep_dTal_VwcvtSLVGMA_T-1emtwK6w0g5eKVdfZyfBBVYlcFqvLR9Ehk4P3uoD5yH44HUIT2zjvnNTIYhUA" />
+ </picture>
+</a>
