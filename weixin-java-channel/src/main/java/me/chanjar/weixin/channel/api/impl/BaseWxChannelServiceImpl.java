@@ -50,6 +50,7 @@ public abstract class BaseWxChannelServiceImpl<H, P> implements WxChannelService
   private WxStoreHomePageService homePageService = null;
   private WxStoreCooperationService cooperationService = null;
   private WxChannelCompassShopService compassShopService = null;
+  private WxChannelSupplierService supplierService = null;
   private WxLeagueWindowService leagueWindowService = null;
   private WxLeagueSupplierService leagueSupplierService = null;
   private WxLeaguePromoterService leaguePromoterService = null;
@@ -62,6 +63,7 @@ public abstract class BaseWxChannelServiceImpl<H, P> implements WxChannelService
   private WxChannelLiveDashboardService liveDashboardService = null;
   private WxChannelQicService qicService = null;
   private WxTalentService talentService = null;
+  private WxChannelFavoriteService favoriteService = null;
 
   protected WxChannelConfig config;
   private int retrySleepMillis = 1000;
@@ -395,6 +397,14 @@ public abstract class BaseWxChannelServiceImpl<H, P> implements WxChannelService
   }
 
   @Override
+  public synchronized WxChannelSupplierService getSupplierService() {
+    if (supplierService == null) {
+      supplierService = new WxChannelSupplierServiceImpl(this);
+    }
+    return supplierService;
+  }
+
+  @Override
   public synchronized WxLeagueWindowService getLeagueWindowService() {
     if (leagueWindowService == null) {
       leagueWindowService = new WxLeagueWindowServiceImpl(this);
@@ -489,6 +499,14 @@ public abstract class BaseWxChannelServiceImpl<H, P> implements WxChannelService
       talentService = new WxTalentServiceImpl(this);
     }
     return talentService;
+  }
+
+  @Override
+  public synchronized WxChannelFavoriteService getFavoriteService() {
+    if (favoriteService == null) {
+      favoriteService = new WxChannelFavoriteServiceImpl(this);
+    }
+    return favoriteService;
   }
 
 }
