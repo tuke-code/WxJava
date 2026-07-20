@@ -29,6 +29,7 @@
 
 ### 目录索引
 - [快速开始（3分钟）](#快速开始3分钟)
+- [AI 编程智能体 SKILL 安装](#ai-编程智能体-skill-安装)
 - [我该选哪个模块？](#我该选哪个模块)
 - [Maven 引用方式](#maven-引用方式)
 - [最小示例](#最小示例)
@@ -44,6 +45,41 @@
 1. 根据业务场景选择模块（见下方“我该选哪个模块？”）
 2. 引入 Maven 依赖并选择对应模块
 3. 参考最小示例完成初始化并调用 API
+
+### AI 编程智能体 SKILL 安装
+
+仓库的 [`skills`](skills) 目录提供面向 WxJava 用户和贡献者的通用 SKILL，包括模块选择、接入、排障、接口贡献和升级迁移。每个 SKILL 都以 `SKILL.md` 为入口，可用于支持该约定的 AI 编程智能体。
+
+支持远程安装 SKILL 的智能体，可以直接使用自然语言指令安装所需目录。例如：
+
+> 安装 https://github.com/binarywang/WxJava/tree/develop/skills/wxjava-integration-guide 中的技能。
+
+可安装的 SKILL 包括：
+
+- [模块选择](https://github.com/binarywang/WxJava/tree/develop/skills/wxjava-module-selector)
+- [接入指南](https://github.com/binarywang/WxJava/tree/develop/skills/wxjava-integration-guide)
+- [故障排查](https://github.com/binarywang/WxJava/tree/develop/skills/wxjava-troubleshooter)
+- [接口贡献](https://github.com/binarywang/WxJava/tree/develop/skills/wxjava-api-contributor)
+- [升级迁移](https://github.com/binarywang/WxJava/tree/develop/skills/wxjava-upgrade-guide)
+
+不支持远程安装时，可将所需的 `skills/wxjava-*` 目录复制到智能体的 SKILL 目录或工作区配置目录；不同智能体的目录和启用方式请以其官方文档为准。
+
+以 Codex 为例，可复制到个人 SKILL 目录：
+
+```shell
+git clone https://github.com/binarywang/WxJava.git
+mkdir -p "${CODEX_HOME:-$HOME/.codex}/skills"
+cp -R WxJava/skills/wxjava-* "${CODEX_HOME:-$HOME/.codex}/skills/"
+```
+
+如果已在本仓库根目录，可直接执行：
+
+```shell
+mkdir -p "${CODEX_HOME:-$HOME/.codex}/skills"
+cp -R skills/wxjava-* "${CODEX_HOME:-$HOME/.codex}/skills/"
+```
+
+重启或新建智能体会话后，即可按需使用。例如：`使用 wxjava-integration-guide 为我的 Spring Boot 项目接入微信支付。`
 
 ### 我该选哪个模块？
 
