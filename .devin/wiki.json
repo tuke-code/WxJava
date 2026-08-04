@@ -126,3 +126,56 @@
       "page_notes": [{ "content": "" }]
     },
     {
+      "title": "小程序服务与配置",
+      "purpose": "详述 WxMaService 接口、BaseWxMaServiceImpl 请求处理流程、多租户配置、API 签名机制、WxMaConfig 实现（内存、Redis、Redisson）和 HTTP 客户端变体。",
+      "parent": "微信小程序模块",
+      "page_notes": [{ "content": "" }]
+    },
+    {
+      "title": "小程序消息与用户服务",
+      "purpose": "记录小程序消息路由（WxMaMessageRouter）、WxMaMessage 解析、客服（Kefu）消息、模板/订阅消息、用户服务（jsCode2Session、手机号）、二维码生成和直播服务。",
+      "parent": "微信小程序模块",
+      "page_notes": [{ "content": "" }]
+    },
+    {
+      "title": "小程序代码管理与开放平台集成",
+      "purpose": "记录小程序代码生命周期管理（提交、审核、发布）、代码模板、类目管理，以及通过开放平台进行第三方小程序管理的集成方式。",
+      "parent": "微信小程序模块",
+      "page_notes": [{ "content": "" }]
+    },
+    {
+      "title": "微信开放平台模块",
+      "purpose": "记录面向第三方应用开发者的开放平台模块，概述 WxOpenComponentService、授权流程，并链接到组件服务和小程序/公众号管理等子页面。",
+      "page_notes": [{ "content": "" }]
+    },
+    {
+      "title": "开放平台组件服务",
+      "purpose": "详述 WxOpenComponentService 的实现、组件 access token 管理、verify ticket 处理、预授权码生成、授权码交换、服务工厂方法和平台事件消息路由。",
+      "parent": "微信开放平台模块",
+      "page_notes": [{ "content": "" }]
+    },
+    {
+      "title": "开放平台小程序与公众号管理",
+      "purpose": "记录通过开放平台对小程序（WxOpenMaService）和公众号（WxOpenMpService）的代管理能力，包括代码管理、域名配置、ICP备案、快速注册和隐私设置。",
+      "parent": "微信开放平台模块",
+      "page_notes": [{ "content": "" }]
+    },
+    {
+      "title": "微信视频号模块",
+      "purpose": "记录面向视频号和微信小店的 weixin-java-channel 模块，涵盖 WxChannelService 接口、商品/订单/售后管理、直播、优选联盟功能，以及 Spring Boot/Solon 集成。",
+      "page_notes": [{ "content": "" }]
+    },
+    {
+      "title": "视频号服务 API",
+      "purpose": "详述 WxChannelService 接口及其子服务，包括商品管理、订单处理、售后处理、优惠券管理、资金操作、VIP 会员和罗盘分析服务。",
+      "parent": "微信视频号模块",
+      "page_notes": [{ "content": "" }]
+    },
+    {
+      "title": "视频号直播与优选联盟能力",
+      "purpose": "记录视频号直播服务（WxFinderLiveService、WxChannelLiveDashboardService）、优选联盟的供货商、推广员、商品和橱窗服务，以及视频号助手能力。",
+      "parent": "微信视频号模块",
+      "page_notes": [{ "content": "" }]
+    }
+  ]
+}
