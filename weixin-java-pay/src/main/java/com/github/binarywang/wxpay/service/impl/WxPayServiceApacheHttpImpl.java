@@ -128,6 +128,7 @@ public class WxPayServiceApacheHttpImpl extends BaseWxPayServiceImpl {
   }
 
   private String requestV3(String url, String requestStr, HttpRequestBase httpRequestBase) throws WxPayException {
+    this.checkV3SandboxNotSupported();
     CloseableHttpClient httpClient = this.createApiV3HttpClient();
     try (CloseableHttpResponse response = httpClient.execute(httpRequestBase)) {
       //v3已经改为通过状态码判断200 204 成功
@@ -163,6 +164,7 @@ public class WxPayServiceApacheHttpImpl extends BaseWxPayServiceImpl {
 
   @Override
   public String postV3WithWechatpaySerial(String url, String requestStr) throws WxPayException {
+    this.checkV3SandboxNotSupported();
     HttpPost httpPost = this.createHttpPost(url, requestStr);
     this.configureRequest(httpPost);
     CloseableHttpClient httpClient = this.createApiV3HttpClient();
@@ -199,6 +201,7 @@ public class WxPayServiceApacheHttpImpl extends BaseWxPayServiceImpl {
 
   @Override
   public String requestV3(String url, HttpRequestBase httpRequest) throws WxPayException {
+    this.checkV3SandboxNotSupported();
     this.configureRequest(httpRequest);
     CloseableHttpClient httpClient = this.createApiV3HttpClient();
     try (CloseableHttpResponse response = httpClient.execute(httpRequest)) {
@@ -243,6 +246,7 @@ public class WxPayServiceApacheHttpImpl extends BaseWxPayServiceImpl {
 
   @Override
   public InputStream downloadV3(String url) throws WxPayException {
+    this.checkV3SandboxNotSupported();
     HttpGet httpGet = new WxPayV3DownloadHttpGet(url);
     this.configureRequest(httpGet);
     CloseableHttpClient httpClient = this.createApiV3HttpClient();
@@ -285,6 +289,7 @@ public class WxPayServiceApacheHttpImpl extends BaseWxPayServiceImpl {
   }
 
   private void configureRequest(HttpRequestBase request) {
+    this.checkV3SandboxNotSupported();
     String serialNumber = getWechatPaySerial(getConfig());
     String method = request.getMethod();
     request.addHeader(ACCEPT, APPLICATION_JSON);
