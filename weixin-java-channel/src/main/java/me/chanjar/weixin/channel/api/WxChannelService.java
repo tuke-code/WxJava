@@ -8,6 +8,15 @@ package me.chanjar.weixin.channel.api;
 public interface WxChannelService extends BaseWxChannelService {
 
   /**
+   * 商家客服服务。
+   *
+   * @return 商家客服服务
+   */
+  default WxChannelKfService getKfService() {
+    throw new UnsupportedOperationException("WxChannelService implementation does not support getKfService()");
+  }
+
+  /**
    * 基础接口服务
    *
    * @return 基础接口服务
@@ -34,6 +43,42 @@ public interface WxChannelService extends BaseWxChannelService {
    * @return 商品服务
    */
   WxChannelProductService getProductService();
+
+  /**
+   * 赠品与买赠活动服务
+   *
+   * @return 赠品与买赠活动服务
+   */
+  default WxChannelGiftService getGiftService() {
+    throw new UnsupportedOperationException("Gift service is not supported by this implementation");
+  }
+
+  /**
+   * 限时抢购服务
+   *
+   * @return 限时抢购服务
+   */
+  default WxChannelLimitedDiscountService getLimitedDiscountService() {
+    throw new UnsupportedOperationException("Limited discount service is not supported by this implementation");
+  }
+
+  /**
+   * 商品库存服务
+   *
+   * @return 商品库存服务
+   */
+  default WxChannelProductStockService getProductStockService() {
+    throw new UnsupportedOperationException("Product stock service is not supported by this implementation");
+  }
+
+  /**
+   * 商品辅助功能服务
+   *
+   * @return 商品辅助功能服务
+   */
+  default WxChannelProductAssistantService getProductAssistantService() {
+    throw new UnsupportedOperationException("Product assistant service is not supported by this implementation");
+  }
 
   /**
    * 仓库服务
@@ -209,5 +254,14 @@ public interface WxChannelService extends BaseWxChannelService {
    * @return 收藏管理服务
    */
   WxChannelFavoriteService getFavoriteService();
+
+  /**
+   * 电子面单服务
+   *
+   * @return 电子面单服务
+   */
+  default WxChannelEwaybillService getEwaybillService() {
+    throw new UnsupportedOperationException("当前 WxChannelService 实现不支持电子面单服务");
+  }
 
 }
