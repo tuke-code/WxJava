@@ -6,8 +6,12 @@ import java.io.Serializable;
 import java.util.List;
 import lombok.Data;
 
+/**
+ * @deprecated 请迁移至 {@link com.binarywang.wxjava.store.bean.after.SyncWorkOrderParam}。
+ */
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@Deprecated
 public class SyncWorkOrderParam implements Serializable {
   private static final long serialVersionUID = -7336088606071452113L;
 

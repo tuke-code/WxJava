@@ -9,10 +9,12 @@ import lombok.NoArgsConstructor;
  * 面单模板ID响应。
  *
  * @author GitHub Copilot
+ * @deprecated 请迁移至 {@link com.binarywang.wxjava.store.bean.ewaybill.TemplateIdResponse}。
  */
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
+@Deprecated
 public class TemplateIdResponse extends AbstractEwaybillResponse {
   private static final long serialVersionUID = -6756111662032438585L;
 

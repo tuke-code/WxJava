@@ -8,10 +8,12 @@ import me.chanjar.weixin.channel.bean.base.WxChannelBaseResponse;
 
 /**
  * 商品品牌推荐响应。
+ * @deprecated 请迁移至 {@link com.binarywang.wxjava.store.bean.product.assistant.ProductBrandRecommendResponse}。
  */
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
+@Deprecated
 public class ProductBrandRecommendResponse extends WxChannelBaseResponse {
 
   private static final long serialVersionUID = -7903894941180639923L;

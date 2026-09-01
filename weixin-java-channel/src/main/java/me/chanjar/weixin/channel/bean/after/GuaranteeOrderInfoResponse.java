@@ -9,10 +9,12 @@ import me.chanjar.weixin.channel.bean.base.WxChannelBaseResponse;
 
 /**
  * 保障单详情响应。
+ * @deprecated 请迁移至 {@link com.binarywang.wxjava.store.bean.after.GuaranteeOrderInfoResponse}。
  */
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
+@Deprecated
 public class GuaranteeOrderInfoResponse extends WxChannelBaseResponse {
 
   private static final long serialVersionUID = 7354122991247317485L;

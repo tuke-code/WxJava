@@ -6,9 +6,12 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import me.chanjar.weixin.channel.bean.base.WxChannelBaseResponse;
 
-/** 站内外商品属性映射响应. */
+/** 站内外商品属性映射响应.
+ * @deprecated 请迁移至 {@link com.binarywang.wxjava.store.bean.product.ExternalProductMappingResponse}。
+*/
 @Data
 @EqualsAndHashCode(callSuper = true)
+@Deprecated
 public class ExternalProductMappingResponse extends WxChannelBaseResponse {
   private static final long serialVersionUID = -8356596972896906087L;
 

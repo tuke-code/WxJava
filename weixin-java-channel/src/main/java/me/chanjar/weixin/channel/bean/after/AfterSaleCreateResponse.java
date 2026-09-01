@@ -5,8 +5,12 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import me.chanjar.weixin.channel.bean.base.WxChannelBaseResponse;
 
+/**
+ * @deprecated 请迁移至 {@link com.binarywang.wxjava.store.bean.after.AfterSaleCreateResponse}。
+ */
 @Data
 @EqualsAndHashCode(callSuper = true)
+@Deprecated
 public class AfterSaleCreateResponse extends WxChannelBaseResponse {
   private static final long serialVersionUID = 2680676438284658410L;
 

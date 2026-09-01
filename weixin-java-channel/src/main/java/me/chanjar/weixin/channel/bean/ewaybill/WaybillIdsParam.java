@@ -11,10 +11,12 @@ import lombok.NoArgsConstructor;
  * 批量运单ID请求参数。
  *
  * @author GitHub Copilot
+ * @deprecated 请迁移至 {@link com.binarywang.wxjava.store.bean.ewaybill.WaybillIdsParam}。
  */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Deprecated
 public class WaybillIdsParam implements Serializable {
   private static final long serialVersionUID = -9030594599179993010L;
 

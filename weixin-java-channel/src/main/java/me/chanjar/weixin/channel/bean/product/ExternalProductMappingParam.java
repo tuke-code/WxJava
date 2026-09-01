@@ -4,8 +4,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import lombok.Data;
 
-/** 站内外商品属性映射请求参数. */
+/** 站内外商品属性映射请求参数.
+ * @deprecated 请迁移至 {@link com.binarywang.wxjava.store.bean.product.ExternalProductMappingParam}。
+*/
 @Data
+@Deprecated
 public class ExternalProductMappingParam implements Serializable {
   private static final long serialVersionUID = 3288069294712374035L;
 

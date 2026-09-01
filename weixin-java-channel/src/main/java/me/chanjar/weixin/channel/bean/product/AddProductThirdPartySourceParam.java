@@ -5,8 +5,11 @@ import com.fasterxml.jackson.databind.JsonNode;
 import java.io.Serializable;
 import lombok.Data;
 
-/** 新增第三方货源信息请求参数. */
+/** 新增第三方货源信息请求参数.
+ * @deprecated 请迁移至 {@link com.binarywang.wxjava.store.bean.product.AddProductThirdPartySourceParam}。
+*/
 @Data
+@Deprecated
 public class AddProductThirdPartySourceParam implements Serializable {
   private static final long serialVersionUID = -5784320217481497742L;
 

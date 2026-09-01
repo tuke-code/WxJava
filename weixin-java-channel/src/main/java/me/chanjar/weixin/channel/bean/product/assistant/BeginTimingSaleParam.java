@@ -7,9 +7,11 @@ import lombok.NoArgsConstructor;
 
 /**
  * 商品立即开售参数。
+ * @deprecated 请迁移至 {@link com.binarywang.wxjava.store.bean.product.assistant.BeginTimingSaleParam}。
  */
 @Data
 @NoArgsConstructor
+@Deprecated
 public class BeginTimingSaleParam implements Serializable {
 
   private static final long serialVersionUID = -1525220756273987016L;

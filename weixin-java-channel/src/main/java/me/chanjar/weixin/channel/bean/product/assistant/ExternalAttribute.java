@@ -7,9 +7,11 @@ import lombok.NoArgsConstructor;
 
 /**
  * 商品属性键值对。
+ * @deprecated 请迁移至 {@link com.binarywang.wxjava.store.bean.product.assistant.ExternalAttribute}。
  */
 @Data
 @NoArgsConstructor
+@Deprecated
 public class ExternalAttribute implements Serializable {
 
   private static final long serialVersionUID = -8639178782951125101L;

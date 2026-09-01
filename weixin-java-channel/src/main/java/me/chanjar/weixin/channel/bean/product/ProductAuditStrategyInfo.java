@@ -4,8 +4,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import lombok.Data;
 
-/** 商品上架策略信息. */
+/** 商品上架策略信息.
+ * @deprecated 请迁移至 {@link com.binarywang.wxjava.store.bean.product.ProductAuditStrategyInfo}。
+*/
 @Data
+@Deprecated
 public class ProductAuditStrategyInfo implements Serializable {
   private static final long serialVersionUID = -2747596416115475981L;
 

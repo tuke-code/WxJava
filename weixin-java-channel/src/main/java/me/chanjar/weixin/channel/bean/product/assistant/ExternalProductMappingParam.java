@@ -7,9 +7,11 @@ import lombok.NoArgsConstructor;
 
 /**
  * 站内外商品属性映射参数。
+ * @deprecated 请迁移至 {@link com.binarywang.wxjava.store.bean.product.assistant.ExternalProductMappingParam}。
  */
 @Data
 @NoArgsConstructor
+@Deprecated
 public class ExternalProductMappingParam implements Serializable {
 
   private static final long serialVersionUID = 1944528166283981889L;

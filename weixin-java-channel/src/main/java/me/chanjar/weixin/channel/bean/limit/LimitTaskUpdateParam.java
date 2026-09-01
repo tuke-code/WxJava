@@ -8,9 +8,11 @@ import lombok.NoArgsConstructor;
 
 /**
  * 更新限时抢购任务请求参数。
+ * @deprecated 请迁移至 {@link com.binarywang.wxjava.store.bean.limit.LimitTaskUpdateParam}。
  */
 @Data
 @NoArgsConstructor
+@Deprecated
 public class LimitTaskUpdateParam implements Serializable {
 
   private static final long serialVersionUID = 7277247203887803045L;

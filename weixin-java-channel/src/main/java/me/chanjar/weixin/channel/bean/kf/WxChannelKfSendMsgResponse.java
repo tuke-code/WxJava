@@ -6,10 +6,13 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import me.chanjar.weixin.channel.bean.base.WxChannelBaseResponse;
 
-/** 发送客服消息响应。 */
+/** 发送客服消息响应。
+ * @deprecated 请迁移至 {@link com.binarywang.wxjava.store.bean.kf.WxStoreKfSendMsgResponse}。
+*/
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
+@Deprecated
 public class WxChannelKfSendMsgResponse extends WxChannelBaseResponse {
 
   private static final long serialVersionUID = 1L;

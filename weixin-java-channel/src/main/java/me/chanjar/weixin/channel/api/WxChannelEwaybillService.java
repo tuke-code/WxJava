@@ -24,7 +24,9 @@ import me.chanjar.weixin.common.error.WxErrorException;
  * 视频号小店电子面单服务接口
  *
  * @author GitHub Copilot
+ * @deprecated 请迁移至 {@link com.binarywang.wxjava.store.api.WxStoreEwaybillService}。
  */
+@Deprecated
 public interface WxChannelEwaybillService {
 
   /** 获取可用的标准面单模板。 @return 模板配置 @throws WxErrorException 微信接口调用失败 */

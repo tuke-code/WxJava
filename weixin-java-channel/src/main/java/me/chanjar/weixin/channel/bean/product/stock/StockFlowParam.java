@@ -8,9 +8,11 @@ import lombok.NoArgsConstructor;
 
 /**
  * 获取库存流水请求参数。
+ * @deprecated 请迁移至 {@link com.binarywang.wxjava.store.bean.product.stock.StockFlowParam}。
  */
 @Data
 @NoArgsConstructor
+@Deprecated
 public class StockFlowParam implements Serializable {
 
   private static final long serialVersionUID = -7882480822919984178L;

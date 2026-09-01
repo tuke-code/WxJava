@@ -7,9 +7,11 @@ import lombok.NoArgsConstructor;
 
 /**
  * 发品前校验参数。
+ * @deprecated 请迁移至 {@link com.binarywang.wxjava.store.bean.product.assistant.CategoryPreCheckParam}。
  */
 @Data
 @NoArgsConstructor
+@Deprecated
 public class CategoryPreCheckParam implements Serializable {
 
   private static final long serialVersionUID = 3616569394767815856L;

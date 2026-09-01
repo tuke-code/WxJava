@@ -5,9 +5,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+/**
+ * @deprecated 请迁移至 {@link com.binarywang.wxjava.store.bean.after.AfterSaleGenAfterSaleOrderParam}。
+ */
 @Data
 @EqualsAndHashCode(callSuper = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@Deprecated
 public class AfterSaleGenAfterSaleOrderParam extends AfterSaleRefundPriceDiffParam {
   private static final long serialVersionUID = -6873909673739068936L;
 

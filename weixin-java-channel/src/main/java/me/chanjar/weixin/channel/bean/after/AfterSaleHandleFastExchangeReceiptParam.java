@@ -6,9 +6,13 @@ import java.util.List;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+/**
+ * @deprecated 请迁移至 {@link com.binarywang.wxjava.store.bean.after.AfterSaleHandleFastExchangeReceiptParam}。
+ */
 @Data
 @EqualsAndHashCode(callSuper = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@Deprecated
 public class AfterSaleHandleFastExchangeReceiptParam extends AfterSaleIdParam {
   private static final long serialVersionUID = 5430106715116197677L;
 

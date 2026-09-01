@@ -9,11 +9,13 @@ import lombok.NoArgsConstructor;
 
 /**
  * 商家协商保障单请求参数。
+ * @deprecated 请迁移至 {@link com.binarywang.wxjava.store.bean.after.GuaranteeModifyRequest}。
  */
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @JsonInclude(Include.NON_NULL)
+@Deprecated
 public class GuaranteeModifyRequest extends GuaranteeOrderIdParam {
 
   private static final long serialVersionUID = 4268864541609439068L;

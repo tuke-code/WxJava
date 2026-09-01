@@ -10,11 +10,13 @@ import lombok.NoArgsConstructor;
 
 /**
  * 商家拒绝保障单请求参数。
+ * @deprecated 请迁移至 {@link com.binarywang.wxjava.store.bean.after.GuaranteeRefuseRequest}。
  */
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @JsonInclude(Include.NON_NULL)
+@Deprecated
 public class GuaranteeRefuseRequest extends GuaranteeOrderIdParam {
 
   private static final long serialVersionUID = -6905594717805091393L;

@@ -10,10 +10,12 @@ import me.chanjar.weixin.channel.bean.base.WxChannelBaseResponse;
 
 /**
  * 获取库存流水响应。
+ * @deprecated 请迁移至 {@link com.binarywang.wxjava.store.bean.product.stock.StockFlowResponse}。
  */
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
+@Deprecated
 public class StockFlowResponse extends WxChannelBaseResponse {
 
   private static final long serialVersionUID = -7420844779570799705L;

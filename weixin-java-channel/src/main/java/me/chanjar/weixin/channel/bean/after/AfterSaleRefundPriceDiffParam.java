@@ -5,8 +5,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import lombok.Data;
 
+/**
+ * @deprecated 请迁移至 {@link com.binarywang.wxjava.store.bean.after.AfterSaleRefundPriceDiffParam}。
+ */
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@Deprecated
 public class AfterSaleRefundPriceDiffParam implements Serializable {
   private static final long serialVersionUID = 3875058376021518123L;
 

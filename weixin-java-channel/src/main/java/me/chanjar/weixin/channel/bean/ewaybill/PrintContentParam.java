@@ -7,10 +7,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/** 获取电子面单打印报文请求参数。 */
+/** 获取电子面单打印报文请求参数。
+ * @deprecated 请迁移至 {@link com.binarywang.wxjava.store.bean.ewaybill.PrintContentParam}。
+*/
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Deprecated
 public class PrintContentParam implements Serializable {
   private static final long serialVersionUID = 6898522842175667816L;
 

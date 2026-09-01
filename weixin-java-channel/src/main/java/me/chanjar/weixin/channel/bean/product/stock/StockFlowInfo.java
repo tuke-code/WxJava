@@ -7,9 +7,11 @@ import lombok.NoArgsConstructor;
 
 /**
  * 库存流水信息。
+ * @deprecated 请迁移至 {@link com.binarywang.wxjava.store.bean.product.stock.StockFlowInfo}。
  */
 @Data
 @NoArgsConstructor
+@Deprecated
 public class StockFlowInfo implements Serializable {
 
   private static final long serialVersionUID = 4094168882102603379L;

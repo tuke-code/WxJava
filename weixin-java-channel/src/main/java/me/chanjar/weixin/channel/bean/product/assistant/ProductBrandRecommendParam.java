@@ -8,9 +8,11 @@ import lombok.NoArgsConstructor;
 
 /**
  * 商品品牌推荐参数。
+ * @deprecated 请迁移至 {@link com.binarywang.wxjava.store.bean.product.assistant.ProductBrandRecommendParam}。
  */
 @Data
 @NoArgsConstructor
+@Deprecated
 public class ProductBrandRecommendParam implements Serializable {
 
   private static final long serialVersionUID = 4516219198778673928L;

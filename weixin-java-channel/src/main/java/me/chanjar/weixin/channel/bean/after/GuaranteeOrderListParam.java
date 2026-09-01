@@ -10,10 +10,12 @@ import lombok.NoArgsConstructor;
 
 /**
  * 保障单列表请求参数。
+ * @deprecated 请迁移至 {@link com.binarywang.wxjava.store.bean.after.GuaranteeOrderListParam}。
  */
 @Data
 @NoArgsConstructor
 @JsonInclude(Include.NON_NULL)
+@Deprecated
 public class GuaranteeOrderListParam implements Serializable {
 
   private static final long serialVersionUID = 1622570776364341988L;

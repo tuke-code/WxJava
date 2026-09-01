@@ -7,9 +7,11 @@ import lombok.NoArgsConstructor;
 
 /**
  * 限时抢购任务的 SKU 更新信息。
+ * @deprecated 请迁移至 {@link com.binarywang.wxjava.store.bean.limit.LimitSkuUpdate}。
  */
 @Data
 @NoArgsConstructor
+@Deprecated
 public class LimitSkuUpdate implements Serializable {
 
   private static final long serialVersionUID = 4209672674401016015L;

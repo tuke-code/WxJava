@@ -9,10 +9,12 @@ import me.chanjar.weixin.channel.bean.base.WxChannelBaseResponse;
 
 /**
  * 商品属性映射及推荐响应。
+ * @deprecated 请迁移至 {@link com.binarywang.wxjava.store.bean.product.assistant.ExternalProductMappingNewResponse}。
  */
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
+@Deprecated
 public class ExternalProductMappingNewResponse extends WxChannelBaseResponse {
 
   private static final long serialVersionUID = -6192580254142696913L;

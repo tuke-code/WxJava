@@ -5,9 +5,12 @@ import java.io.Serializable;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/** 发送客服消息请求参数。 */
+/** 发送客服消息请求参数。
+ * @deprecated 请迁移至 {@link com.binarywang.wxjava.store.bean.kf.WxStoreKfSendMsgParam}。
+*/
 @Data
 @NoArgsConstructor
+@Deprecated
 public class WxChannelKfSendMsgParam implements Serializable {
 
   private static final long serialVersionUID = 1L;
