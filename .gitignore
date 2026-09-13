@@ -61,3 +61,4 @@ docs/superpowers/
 # Local Superpowers working documents; do not commit.
 /docs/superpowers/
 /.firecrawl/
+.repo_memory/
